@@ -62,6 +62,7 @@ class Bot:
     def test_builder(self):
         b = self.builder.get_resources()
         print(b)
+        self.builder.build_lowest_resource()
 
     def log_html(self):
         links = self.browser.get_links()

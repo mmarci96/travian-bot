@@ -1,18 +1,18 @@
 class ResourceField:
-    def __init__(self, resource_type, slot, href, level):
+    def __init__(self, resource_type: str, slot: int, href: str, level: int):
         self._resource_type = resource_type
         self._slot = slot
         self._href = href
         self._level = level
 
     # Getters
-    def get_resource_type(self):
+    def get_resource_type(self) -> str:
         return self._resource_type
 
     def get_slot(self):
         return self._slot
 
-    def get_href(self):
+    def get_href(self) -> str:
         return self._href
 
     def get_level(self):
