@@ -1,9 +1,12 @@
+from typing import Dict, List
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+from app.data.Building import Building, BuildingSlot
 
 
 class Chrome:
@@ -28,22 +31,6 @@ class Chrome:
                 params[param]
             )
 
-    def click_button_in_section(self, parent_class, timeout=10):
-        """
-        Click a button with specific text inside a parent element with given class.
-        """
-        try:
-            xpath = f"//div[contains(@class, '{parent_class}')]"
-            button = WebDriverWait(self.browser, timeout).until(
-                EC.element_to_be_clickable((By.XPATH, xpath))
-            )
-            button.click()
-            print(
-                f"[+] Clicked button  inside parent with class '{parent_class}'."
-            )
-        except Exception as e:
-            print(f"[!] Failed to click button in parent '{parent_class}': {e}")
-
     def click(self, class_name, timeout=10):
         try:
             button = WebDriverWait(self.browser, timeout).until(
@@ -53,20 +40,41 @@ class Chrome:
         except Exception as e:
             print(f"[!] Failed to click element with class '{class_name}': {e}")
 
-    def click_byid(self, id_name, timeout=10):
-        try:
-            button = WebDriverWait(self.browser, timeout).until(
-                EC.element_to_be_clickable((By.ID, id_name))
-            )
-            button.click()
-        except Exception as e:
-            print(f"[!] Failed to click element with id '{id_name}': {e}")
-
     def get_buttons(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="button")
 
     def get_links(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="a")
+
+    def get_building_slots(self) -> List[BuildingSlot]:
+        building_slots = []
+        try:
+            container = self.browser.find_element(By.ID, "villageContent")
+            slots = container.find_elements(By.CLASS_NAME, "buildingSlot")
+            for slot in slots:
+                # class_attr = slot.get_attribute("class")
+                name = slot.get_attribute("data-name")
+                print("Name", name)
+                slot_id = slot.get_attribute("data-aid")
+                print("slot_id", slot_id)
+                building_id = slot.get_attribute("data-gid")
+                print("building_id", building_id)
+
+                link = slot.find_element(By.TAG_NAME, "a")
+                href = link.get_attribute("href")
+                level = link.get_attribute("data-level")
+                print("Level: ", level)
+                if href and slot_id:
+                    s = BuildingSlot(slot_id, href)
+                    if name and building_id and level:
+                        b = Building(building_id, name, int(level))
+                        s.set_building(b)
+                    building_slots.append(s)
+
+        except Exception as e:
+            print(f"[!] Failed to get building slot: {e}")
+
+        return building_slots
 
     def get_resource_fields(self):
         resource_field_classes = {
@@ -132,7 +140,7 @@ class Chrome:
 
         return resource_fields
 
-    def get_resources(self):
+    def get_resources(self) -> Dict[str, int]:
         resource_ids = {
             "wood": "l1",
             "clay": "l2",
@@ -150,6 +158,7 @@ class Chrome:
                     text.replace("\u202d", "")
                     .replace("\u202c", "")
                     .replace(" ", "")
+                    .replace(",", "")
                 )
                 resources[name] = int(clean_text)
             except Exception as e:
@@ -166,12 +175,14 @@ class Chrome:
                     .text.replace("\u202d", "")
                     .replace("\u202c", "")
                     .replace(" ", "")
+                    .replace(",", "")
                 )
                 granary = (
                     capacities[1]
                     .text.replace("\u202d", "")
                     .replace("\u202c", "")
                     .replace(" ", "")
+                    .replace(",", "")
                 )
                 resources["warehouse_capacity"] = int(warehouse)
                 resources["granary_capacity"] = int(granary)
@@ -186,5 +197,5 @@ class Chrome:
 
         return resources
 
-    def current_url(self):
+    def current_url(self) -> str:
         return self.browser.current_url

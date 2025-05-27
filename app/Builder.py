@@ -30,7 +30,6 @@ class Builder:
                 if res.get_level() < lowest.get_level():
                     lowest = res
 
-        print("Lowest resource: ", lowest)
         if lowest:
             print("Lowest url: ", lowest.get_href())
             sleep(1)

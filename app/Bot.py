@@ -3,10 +3,12 @@ from random import randrange
 from app import Chrome
 from time import sleep
 from datetime import datetime
-import re
 
 from app.data import ResourceField
 from app.Builder import Builder
+from app.data.Granary import Granary
+from app.data.ResourceAmount import ResourceAmount
+from app.data.Warehouse import Warehouse
 
 
 def get_time():
@@ -37,13 +39,40 @@ class Bot:
     def go_home(self):
         self.browser.goto(self.url + "/dorf1.php")
 
+    def go_village(self):
+        self.browser.goto(self.url + "/dorf2.php")
+        sleep(1)
+        slots = self.browser.get_building_slots()
+        # print("SLOOOTS:", slots)
+        for slot in slots:
+            print("Slot: ", slot)
+            building = slot.get_building()
+            if building:
+                print("Buidling found on slot: ", building)
+
+    def setup(self):
+        # sleep(randrange(1, 2))
+        # self.load_storage()
+        # self.load_resources()
+        print("Skipping setup...")
+
+    def load_storage(self):
+        res = self.browser.get_resources()
+        warehouse_resources = ResourceAmount(
+            wood=res["wood"], clay=res["clay"], iron=res["iron"]
+        )
+        self.warehouse = Warehouse(
+            res["warehouse_capacity"], warehouse_resources
+        )
+
+        self.granary = Granary(res["granary_capacity"], crop=res["crop"])
+
     def load_resources(self):
         """Fetch and populate ResourceField instances into self.resource_fields"""
         sleep(randrange(1, 2))
         res_fields_data = self.browser.get_resource_fields()
-        print("Resource fields fetched.")
 
-        self.resource_fields.clear()  # reset if reloading
+        self.resource_fields.clear()
 
         for res_type, fields in res_fields_data.items():
             for field in fields:
@@ -56,42 +85,19 @@ class Bot:
                 self.resource_fields.append(resource)
 
         print(f"Loaded {len(self.resource_fields)} total resource fields.")
-        # for res in self.resource_fields:
-        # print(res)
 
     def test_builder(self):
         b = self.builder.get_resources()
-        print(b)
+        print("Builder", b)
         self.builder.build_lowest_resource()
 
-    def log_resources(self):
-        sleep(randrange(1, 2))
-        resources = self.browser.get_resources()
-        print("Resources: \n", resources)
-        sleep(randrange(1, 2))
-        res_fields = self.browser.get_resource_fields()
-        print("Resource fields: \n", res_fields)
-        res = res_fields["wood"][1]["href"]
-
-        self.browser.goto(res)
-
-        buttons = self.browser.get_buttons()
-        print(f"Found {len(buttons)} button:")
-        target_url = "/dorf1.php"
-        for button in buttons:
-            text = (button.text or "").strip()
-            if "level" in text.lower():
-                onclick_value = button.get_attribute("onclick")
-                if onclick_value:
-                    match = re.search(r"'(.*?)'", onclick_value)
-                    if match:
-                        target_url = match.group(1)
-                        print(f"[✓] {text} | Parsed URL: {target_url}")
-                    else:
-                        print(f"[!] {text} | No URL found in onclick.")
-        sleep(1)
-        self.browser.goto(self.url + target_url)
-        sleep(5)
+    def test_store(self):
+        gcap = self.granary.get_capacity()
+        gcrop = self.granary.get_wheat()
+        wcap = self.warehouse.get_capacity()
+        wres = self.warehouse.get_resources()
+        print("Granary: ", "capacity: " + str(gcap), "Crop:" + str(gcrop))
+        print("Warehouse: ", "capacity: " + str(wcap), "Resources: ", wres)
 
     def is_logged(self):
         return self.browser.current_url() != self.url
