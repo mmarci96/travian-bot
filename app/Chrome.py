@@ -1,3 +1,4 @@
+from typing import Dict
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 
@@ -28,22 +29,6 @@ class Chrome:
                 params[param]
             )
 
-    def click_button_in_section(self, parent_class, timeout=10):
-        """
-        Click a button with specific text inside a parent element with given class.
-        """
-        try:
-            xpath = f"//div[contains(@class, '{parent_class}')]"
-            button = WebDriverWait(self.browser, timeout).until(
-                EC.element_to_be_clickable((By.XPATH, xpath))
-            )
-            button.click()
-            print(
-                f"[+] Clicked button  inside parent with class '{parent_class}'."
-            )
-        except Exception as e:
-            print(f"[!] Failed to click button in parent '{parent_class}': {e}")
-
     def click(self, class_name, timeout=10):
         try:
             button = WebDriverWait(self.browser, timeout).until(
@@ -52,15 +37,6 @@ class Chrome:
             button.click()
         except Exception as e:
             print(f"[!] Failed to click element with class '{class_name}': {e}")
-
-    def click_byid(self, id_name, timeout=10):
-        try:
-            button = WebDriverWait(self.browser, timeout).until(
-                EC.element_to_be_clickable((By.ID, id_name))
-            )
-            button.click()
-        except Exception as e:
-            print(f"[!] Failed to click element with id '{id_name}': {e}")
 
     def get_buttons(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="button")
@@ -132,7 +108,7 @@ class Chrome:
 
         return resource_fields
 
-    def get_resources(self):
+    def get_resources(self) -> Dict[str, int]:
         resource_ids = {
             "wood": "l1",
             "clay": "l2",
@@ -150,6 +126,7 @@ class Chrome:
                     text.replace("\u202d", "")
                     .replace("\u202c", "")
                     .replace(" ", "")
+                    .replace(",", "")
                 )
                 resources[name] = int(clean_text)
             except Exception as e:
@@ -166,12 +143,14 @@ class Chrome:
                     .text.replace("\u202d", "")
                     .replace("\u202c", "")
                     .replace(" ", "")
+                    .replace(",", "")
                 )
                 granary = (
                     capacities[1]
                     .text.replace("\u202d", "")
                     .replace("\u202c", "")
                     .replace(" ", "")
+                    .replace(",", "")
                 )
                 resources["warehouse_capacity"] = int(warehouse)
                 resources["granary_capacity"] = int(granary)
@@ -186,5 +165,5 @@ class Chrome:
 
         return resources
 
-    def current_url(self):
+    def current_url(self) -> str:
         return self.browser.current_url

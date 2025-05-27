@@ -22,10 +22,11 @@ def main():
         print("Incorrect username and password")
         return
 
-    sleep(1)
     bot.go_home()
-    bot.load_resources()
-    bot.test_builder()
+    bot.setup()
+    sleep(1)
+    bot.test_store()
+    # bot.test_builder()
 
 
 if __name__ == "__main__":
