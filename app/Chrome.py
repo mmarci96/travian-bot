@@ -1,3 +1,4 @@
+from time import sleep
 from typing import Dict, List
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
@@ -39,6 +40,39 @@ class Chrome:
             button.click()
         except Exception as e:
             print(f"[!] Failed to click element with class '{class_name}': {e}")
+
+    def go_sitting(self, timeout=10):
+        try:
+            wait = WebDriverWait(self.browser, timeout)
+
+            # Find the button via class name
+            switch_button = wait.until(
+                EC.presence_of_element_located((By.CLASS_NAME, "switchAvatar"))
+            )
+
+            # Trigger click via JavaScript
+            self.browser.execute_script("arguments[0].click();", switch_button)
+            print("JavaScript click triggered on switchAvatar button.")
+
+            avatar_container = wait.until(
+                EC.visibility_of_element_located(
+                    (By.CLASS_NAME, "avatarSelection open")
+                )
+            )
+            print("Avatar container", avatar_container)
+            # b = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "avatarSelection open")))
+
+            # Now select the sitter avatar
+            avatar = wait.until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, "//a[span[text()='Borat']]")
+                )
+            )
+            avatar.click()
+            print("Switched to sitter avatar: ZeroOne")
+
+        except Exception as e:
+            print(f"[!] Failed to switch avatar: {e}")
 
     def get_buttons(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="button")

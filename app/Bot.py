@@ -51,12 +51,15 @@ class Bot:
                 print("Buidling found on slot: ", building)
 
     def setup(self):
+        sleep(1)
+        self.browser.go_sitting()
+        sleep(3)
         # sleep(randrange(1, 2))
         # self.load_storage()
         # self.load_resources()
-        print("Setup villages...")
-        villages = self.browser.get_villages()
-        print("VillageIDs:", villages)
+        # print("Setup villages...")
+        # villages = self.browser.get_villages()
+        # print("VillageIDs:", villages)
 
     def load_storage(self):
         res = self.browser.get_resources()

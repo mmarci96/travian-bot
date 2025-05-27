@@ -11,6 +11,7 @@ def main():
     url = sys.argv[1]
     username = sys.argv[2]
     password = sys.argv[3]
+    # avatar = sys.argv[4]
     # targets = sys.argv[4].split(",")
     # min = sys.argv[5]
     # max = sys.argv[6]
