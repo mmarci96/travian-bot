@@ -45,6 +45,9 @@ class Builder:
         self.browser.goto(target_url)
         sleep(randrange(1, 2))
 
+    def new_building_on_slot(self, slot: BuildingSlot, building_name: str):
+        print("New building with id: ", slot, building_name)
+
     def get_build_command(self) -> str:
         command = "/dorf1.php"
         buttons = self.browser.get_buttons()
