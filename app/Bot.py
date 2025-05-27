@@ -23,7 +23,7 @@ class Bot:
         self.password = password
         self.browser = Chrome.Chrome(headless=False)
         self.resource_fields = []
-        self.builder = Builder(self.browser, self.resource_fields)
+        self.builder = Builder(self.browser, self.resource_fields, self.url)
 
     def login(self):
         self.browser.goto(self.url)

@@ -1,3 +1,6 @@
+from random import randrange
+import re
+from time import sleep
 from typing import List
 from app.Chrome import Chrome
 from app.ResourceField import ResourceField
@@ -6,10 +9,13 @@ from app.ResourceField import ResourceField
 class Builder:
     """docstring for Builder."""
 
-    def __init__(self, browser: Chrome, resources: List[ResourceField]):
+    def __init__(
+        self, browser: Chrome, resources: List[ResourceField], base_url: str
+    ):
         super(Builder, self).__init__()
         self.browser = browser
         self.resources = resources
+        self.base_url = base_url
 
     def get_resources(self):
         return self.resources
@@ -26,4 +32,28 @@ class Builder:
 
         print("Lowest resource: ", lowest)
         if lowest:
+            print("Lowest url: ", lowest.get_href())
+            sleep(1)
             self.browser.goto(lowest.get_href())
+            sleep(randrange(2, 3))
+            command = self.get_build_command()
+            self.browser.goto(self.base_url + command)
+            sleep(randrange(1, 2))
+
+    def get_build_command(self) -> str:
+        command = "/dorf1.php"
+        buttons = self.browser.get_buttons()
+        print(f"Found {len(buttons)} button:")
+        for button in buttons:
+            text = (button.text or "").strip()
+            if "level" in text.lower():
+                onclick_value = button.get_attribute("onclick")
+                if onclick_value:
+                    match = re.search(r"'(.*?)'", onclick_value)
+                    if match:
+                        command = match.group(1)
+                        print(f"[✓] {text} | Parsed URL: {command}")
+                    else:
+                        print(f"[!] {text} | No URL found in onclick.")
+
+        return command
