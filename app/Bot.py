@@ -54,7 +54,9 @@ class Bot:
         # sleep(randrange(1, 2))
         # self.load_storage()
         # self.load_resources()
-        print("Skipping setup...")
+        print("Setup villages...")
+        villages = self.browser.get_villages()
+        print("VillageIDs:", villages)
 
     def load_storage(self):
         res = self.browser.get_resources()

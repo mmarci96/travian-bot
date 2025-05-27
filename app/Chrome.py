@@ -46,6 +46,22 @@ class Chrome:
     def get_links(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="a")
 
+    def get_villages(self) -> List[str]:
+        villages = []
+        try:
+            list_container = self.browser.find_element(
+                By.ID, "sidebarBoxVillageList"
+            )
+            village_containers = list_container.find_elements(
+                By.CLASS_NAME, "dropContainer"
+            )
+            for village_container in village_containers:
+                village = village_container.get_attribute("data-sortid")
+                villages.append(village)
+        except Exception as e:
+            print(f"[!] Failed to get village ids: {e}")
+        return villages
+
     def get_building_slots(self) -> List[BuildingSlot]:
         building_slots = []
         try:
