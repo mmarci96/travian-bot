@@ -3,7 +3,6 @@ from random import randrange
 from app import Chrome
 from time import sleep
 from datetime import datetime
-import re
 
 from app.data import ResourceField
 from app.Builder import Builder
@@ -40,10 +39,22 @@ class Bot:
     def go_home(self):
         self.browser.goto(self.url + "/dorf1.php")
 
+    def go_village(self):
+        self.browser.goto(self.url + "/dorf2.php")
+        sleep(1)
+        slots = self.browser.get_building_slots()
+        # print("SLOOOTS:", slots)
+        for slot in slots:
+            print("Slot: ", slot)
+            building = slot.get_building()
+            if building:
+                print("Buidling found on slot: ", building)
+
     def setup(self):
-        sleep(randrange(1, 2))
-        self.load_storage()
-        self.load_resources()
+        # sleep(randrange(1, 2))
+        # self.load_storage()
+        # self.load_resources()
+        print("Skipping setup...")
 
     def load_storage(self):
         res = self.browser.get_resources()

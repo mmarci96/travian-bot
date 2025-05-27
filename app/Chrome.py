@@ -1,10 +1,12 @@
-from typing import Dict
+from typing import Dict, List
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+from app.data.Building import Building, BuildingSlot
 
 
 class Chrome:
@@ -43,6 +45,36 @@ class Chrome:
 
     def get_links(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="a")
+
+    def get_building_slots(self) -> List[BuildingSlot]:
+        building_slots = []
+        try:
+            container = self.browser.find_element(By.ID, "villageContent")
+            slots = container.find_elements(By.CLASS_NAME, "buildingSlot")
+            for slot in slots:
+                # class_attr = slot.get_attribute("class")
+                name = slot.get_attribute("data-name")
+                print("Name", name)
+                slot_id = slot.get_attribute("data-aid")
+                print("slot_id", slot_id)
+                building_id = slot.get_attribute("data-gid")
+                print("building_id", building_id)
+
+                link = slot.find_element(By.TAG_NAME, "a")
+                href = link.get_attribute("href")
+                level = link.get_attribute("data-level")
+                print("Level: ", level)
+                if href and slot_id:
+                    s = BuildingSlot(slot_id, href)
+                    if name and building_id and level:
+                        b = Building(building_id, name, int(level))
+                        s.set_building(b)
+                    building_slots.append(s)
+
+        except Exception as e:
+            print(f"[!] Failed to get building slot: {e}")
+
+        return building_slots
 
     def get_resource_fields(self):
         resource_field_classes = {
