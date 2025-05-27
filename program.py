@@ -25,7 +25,6 @@ def main():
     sleep(1)
     bot.go_home()
     bot.load_resources()
-    build_res_task = {"resource_type": "crop", "level": "3"}
     bot.test_builder()
 
 

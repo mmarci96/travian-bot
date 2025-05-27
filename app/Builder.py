@@ -3,7 +3,7 @@ import re
 from time import sleep
 from typing import List
 from app.Chrome import Chrome
-from app.ResourceField import ResourceField
+from app.data.ResourceField import ResourceField
 
 
 class Builder:

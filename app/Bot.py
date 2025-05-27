@@ -5,7 +5,7 @@ from time import sleep
 from datetime import datetime
 import re
 
-from app import ResourceField
+from app.data import ResourceField
 from app.Builder import Builder
 
 
@@ -63,12 +63,6 @@ class Bot:
         b = self.builder.get_resources()
         print(b)
         self.builder.build_lowest_resource()
-
-    def log_html(self):
-        links = self.browser.get_links()
-        print(f"Found {len(links)} links:")
-        for a in links:
-            print(f" - {a.text.strip()} | href={a.get_attribute('href')}")
 
     def log_resources(self):
         sleep(randrange(1, 2))
