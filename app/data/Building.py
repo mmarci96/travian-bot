@@ -29,5 +29,8 @@ class BuildingSlot:
     def get_building(self) -> Building | None:
         return self.building
 
+    def get_href(self):
+        return self.href
+
     def __repr__(self):
         return f"<SlotID {self.slot_id} (Href: {self.href})>"
