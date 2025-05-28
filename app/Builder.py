@@ -21,13 +21,15 @@ class Builder:
     def get_resources(self):
         return self.resources
 
-    def build_lowest_resource(self, resource_type="crop"):
+    def build_lowest_resource(self, resource_type="crop", target_level=5):
         lowest = None
         for res in self.resources:
             if lowest is None:
                 lowest = res
                 continue
             if res.get_resource_type() == resource_type:
+                if target_level >= res.get_level():
+                    continue
                 if res.get_level() < lowest.get_level():
                     lowest = res
 

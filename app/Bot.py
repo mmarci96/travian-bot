@@ -64,20 +64,19 @@ class Bot:
         for village in villages:
             village_id, village_name = next(iter(village.items()))
             self.load_village(village_id, village_name)
-        # first_village_dict = villages
-        # village_href = f"/dorf1.php?newdid={village_id}&"
-        # self.go_to_village(village_href)
-        # sleep(randrange(1, 2))
-        # print("Villages:", villages)
-        # res_fields = self.load_resources()
-        # slots = self.load_slots()
-        # store = self.load_storage()
-        # self.current_village = Village(
-        #     village_name, village_id, res_fields, slots, store
-        # )
-        # # TODO test if current_village initiated
-        # print("Current village: ", self.current_village)
-        # self.save_village_to_json(self.current_village)
+
+    def update(self):
+        for village in self.villages:
+            if len(village.res_task) > 0:
+                for res_task in village.res_task:
+                    self.browser.goto(
+                        self.url + f"/dorf1.php?newdid={village.id}&"
+                    )
+                    sleep(randrange(1, 2))
+                    self.builder.build_lowest_resource(
+                        res_task.resouce_type, res_task.target_level
+                    )
+                    sleep(randrange(1, 2))
 
     def load_village(self, id: str, name: str):
         sleep(randrange(1, 2))
