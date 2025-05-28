@@ -5,7 +5,7 @@ To run the code you need to have google chrome and python/pip installed.
 To start the application you first need to setup a virtaul env for the runtime.
 Clone the repo then enter the folder and setup the venv, then you can install the dependencies:
 ```
-git clone git@github.com:mmarci96/travian-bot-python.git
+git clone https://github.com/mmarci96/travian-bot-python.git
 cd travian-bot-python
 python -m venv venv
 source venv/bin/activate
