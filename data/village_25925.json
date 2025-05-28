@@ -1,5 +1,5 @@
 {
-  "name": "ZeroOne`s villag",
+  "name": "ZeroOne`s village",
   "href": "25925",
   "resource_fields": [
     {
@@ -247,14 +247,14 @@
     "warehouse": {
       "capacity": 4000,
       "resources": {
-        "wood": 2830,
-        "clay": 3077,
-        "iron": 3727
+        "wood": 3853,
+        "clay": 3916,
+        "iron": 4000
       }
     },
     "granary": {
       "capacity": 3100,
-      "crop": 2465
+      "crop": 3100
     }
   },
   "res_tasks": [

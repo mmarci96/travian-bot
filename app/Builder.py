@@ -23,24 +23,27 @@ class Builder:
 
     def build_lowest_resource(self, resource_type="crop", target_level=5):
         lowest = None
+
         for res in self.resources:
-            if lowest is None:
-                lowest = res
+            if res.get_resource_type() != resource_type:
                 continue
-            if res.get_resource_type() == resource_type:
-                if target_level >= res.get_level():
-                    continue
-                if res.get_level() < lowest.get_level():
-                    lowest = res
+            if res.get_level() >= target_level:
+                continue
+            if lowest is None or res.get_level() < lowest.get_level():
+                lowest = res
 
         if lowest:
-            print("Lowest url: ", lowest.get_href())
+            print("Building resource:", lowest)
             sleep(1)
             self.browser.goto(lowest.get_href())
             sleep(randrange(2, 3))
             command = self.get_build_command()
             self.browser.goto(self.base_url + command)
             sleep(randrange(1, 2))
+        else:
+            print(
+                f"No {resource_type} fields below level {target_level} found."
+            )
 
     def build_on_slot(self, slot: BuildingSlot, building_id: str):
         target_url = slot.get_href()

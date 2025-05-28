@@ -239,14 +239,14 @@
     "warehouse": {
       "capacity": 1700,
       "resources": {
-        "wood": 1254,
-        "clay": 499,
-        "iron": 1149
+        "wood": 1700,
+        "clay": 1462,
+        "iron": 1700
       }
     },
     "granary": {
       "capacity": 1700,
-      "crop": 1077
+      "crop": 1700
     }
   },
   "res_tasks": [
