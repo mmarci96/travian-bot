@@ -44,6 +44,9 @@ class Builder:
         target_url = slot.get_href()
         self.browser.goto(target_url)
         sleep(randrange(1, 2))
+        target_url = self.browser.get_build_command_by_id(building_id)
+        sleep(randrange(1, 2))
+        self.browser.goto(target_url)
 
     def new_building_on_slot(self, slot: BuildingSlot, building_name: str):
         print("New building with id: ", slot, building_name)

@@ -25,6 +25,7 @@ def main():
     bot.go_home()
     bot.setup()
     sleep(1)
+    bot.go_home()
     # bot.go_village()
     # bot.test_store()
     # bot.test_builder()

@@ -1,3 +1,4 @@
+import re
 from typing import Dict, List
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
@@ -45,6 +46,30 @@ class Chrome:
 
     def get_links(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="a")
+
+    def get_build_command_by_id(self, building_id: str):
+        command = None
+        try:
+            container = self.browser.find_element(
+                By.ID, "contract_building" + building_id
+            )
+            button = container.find_element(
+                By.CLASS_NAME, "textButtonV1.green.new"
+            )
+
+            onclick_value = button.get_attribute("onclick")
+            if onclick_value:
+                match = re.search(r"'(.*?)'", onclick_value)
+                if match:
+                    command = match.group(1)
+                    print(f"[✓] ID: {building_id} | Parsed URL: {command}")
+                else:
+                    print(f"[!] ID: {building_id} | No URL found in onclick.")
+
+        except Exception as e:
+            print(f"[!] Warning, not found element err: {e}")
+        print("Command: ", command)
+        return command
 
     def get_villages(self) -> List[Dict[str, str]]:
         villages = []

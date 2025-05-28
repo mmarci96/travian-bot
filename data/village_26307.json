@@ -248,5 +248,17 @@
       "capacity": 2300,
       "crop": 2300
     }
-  }
+  },
+  "res_tasks": [
+    {
+      "slot_id": "20",
+      "building_id": "17"
+    }
+  ],
+  "build_task": [
+    {
+      "resource_type": "wood",
+      "target_level": 6
+    }
+  ]
 }

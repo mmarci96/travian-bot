@@ -12,6 +12,7 @@ from app.data.Building import BuildingSlot
 from app.data.Granary import Granary
 from app.data.ResourceAmount import ResourceAmount
 from app.data.Storage import Storage
+from app.data.Task import BuildingTask, ResourceTask
 from app.data.Village import Village
 from app.data.Warehouse import Warehouse
 
@@ -86,7 +87,12 @@ class Bot:
         res_fields = self.load_resources()
         slots = self.load_slots()
         store = self.load_storage()
-        current_village = Village(name, id, res_fields, slots, store)
+        res_task = ResourceTask("wood", 6)
+        build_task = BuildingTask("20", "17")
+
+        current_village = Village(
+            name, id, res_fields, slots, store, [res_task], [build_task]
+        )
         self.villages.append(current_village)
         self.save_village_to_json(current_village)
 
