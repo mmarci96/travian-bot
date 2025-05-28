@@ -10,6 +10,9 @@ class Building:
     def get_name(self):
         return self.name
 
+    def to_dict(self):
+        return {"id": self.id, "name": self.name, "level": self.level}
+
     def __repr__(self):
         return f"<Building {self.id} (Name {self.name}) - Level {self.level}>"
 
@@ -28,6 +31,13 @@ class BuildingSlot:
 
     def get_building(self) -> Building | None:
         return self.building
+
+    def to_dict(self):
+        return {
+            "slot_id": self.slot_id,
+            "href": self.href,
+            "building": self.building.to_dict() if self.building else None,
+        }
 
     def __repr__(self):
         return f"<SlotID {self.slot_id} (Href: {self.href})>"

@@ -67,19 +67,16 @@ class Chrome:
         try:
             container = self.browser.find_element(By.ID, "villageContent")
             slots = container.find_elements(By.CLASS_NAME, "buildingSlot")
+
             for slot in slots:
-                # class_attr = slot.get_attribute("class")
                 name = slot.get_attribute("data-name")
-                print("Name", name)
                 slot_id = slot.get_attribute("data-aid")
-                print("slot_id", slot_id)
                 building_id = slot.get_attribute("data-gid")
-                print("building_id", building_id)
 
                 link = slot.find_element(By.TAG_NAME, "a")
                 href = link.get_attribute("href")
                 level = link.get_attribute("data-level")
-                print("Level: ", level)
+
                 if href and slot_id:
                     s = BuildingSlot(slot_id, href)
                     if name and building_id and level:
