@@ -15,5 +15,8 @@ class Granary:
     def set_wheat(self, wheat: int):
         self.crop = wheat
 
+    def to_dict(self):
+        return {"capacity": self.capacity, "crop": self.crop}
+
     def set_capacity(self, capacity: int):
         self.capacity = capacity

@@ -1,4 +1,3 @@
-import re
 from typing import Dict, List
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
@@ -47,48 +46,47 @@ class Chrome:
     def get_links(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="a")
 
-    def get_build_command_by_id(self, building_id: str):
-        command = None
+    def get_villages(self) -> List[Dict[str, str]]:
+        villages = []
         try:
-            container = self.browser.find_element(
-                By.ID, "contract_building" + building_id
+            list_container = self.browser.find_element(
+                By.ID, "sidebarBoxVillageList"
             )
-            button = container.find_element(
-                By.CLASS_NAME, "textButtonV1.green.new"
+            village_containers = list_container.find_elements(
+                By.CLASS_NAME, "dropContainer"
             )
-            print(button)
-            onclick_value = button.get_attribute("onclick")
-            if onclick_value:
-                match = re.search(r"'(.*?)'", onclick_value)
-                if match:
-                    command = match.group(1)
-                    print(f"[✓] ID: {building_id} | Parsed URL: {command}")
-                else:
-                    print(f"[!] ID: {building_id} | No URL found in onclick.")
+            for village_container in village_containers:
+
+                village = village_container.get_attribute("data-sortid")
+                if village:
+                    village_id = village[7:]
+                    name_elem = village_container.find_element(
+                        By.XPATH,
+                        f"//span[@class='name'][@data-did='{village_id}']",
+                    )
+                    name = name_elem.text
+                    village_obj = {village_id: name}
+                    villages.append(village_obj)
 
         except Exception as e:
-            print(f"[!] Warning, not found element err: {e}")
-        print("Command: ", command)
-        return command
+            print(f"[!] Failed to get village ids: {e}")
+        return villages
 
     def get_building_slots(self) -> List[BuildingSlot]:
         building_slots = []
         try:
             container = self.browser.find_element(By.ID, "villageContent")
             slots = container.find_elements(By.CLASS_NAME, "buildingSlot")
+
             for slot in slots:
-                # class_attr = slot.get_attribute("class")
                 name = slot.get_attribute("data-name")
-                print("Name", name)
                 slot_id = slot.get_attribute("data-aid")
-                print("slot_id", slot_id)
                 building_id = slot.get_attribute("data-gid")
-                print("building_id", building_id)
 
                 link = slot.find_element(By.TAG_NAME, "a")
                 href = link.get_attribute("href")
                 level = link.get_attribute("data-level")
-                print("Level: ", level)
+
                 if href and slot_id:
                     s = BuildingSlot(slot_id, href)
                     if name and building_id and level:

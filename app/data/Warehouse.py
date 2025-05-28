@@ -21,5 +21,11 @@ class Warehouse:
     def set_resources(self, resources: ResourceAmount):
         self.resources = resources
 
+    def to_dict(self):
+        return {
+            "capacity": self.capacity,
+            "resources": self.resources.to_dict(),
+        }
+
     def set_capacity(self, capacity: int):
         self.capacity = capacity

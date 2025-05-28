@@ -25,6 +25,14 @@ class ResourceField:
         else:
             raise ValueError("Level must be a non-negative integer.")
 
+    def to_dict(self):
+        return {
+            "resource_type": self._resource_type,
+            "slot": self._slot,
+            "href": self._href,
+            "level": self._level,
+        }
+
     # Optional: readable string representation
     def __repr__(self):
         return f"<ResourceField {self._resource_type} (Slot {self._slot}) - Level {self._level}>"

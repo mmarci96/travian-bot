@@ -1,4 +1,6 @@
+import json
 from random import randrange
+from typing import List
 
 from app import Chrome
 from time import sleep
@@ -6,8 +8,11 @@ from datetime import datetime
 
 from app.data import ResourceField
 from app.Builder import Builder
+from app.data.Building import BuildingSlot
 from app.data.Granary import Granary
 from app.data.ResourceAmount import ResourceAmount
+from app.data.Storage import Storage
+from app.data.Village import Village
 from app.data.Warehouse import Warehouse
 
 
@@ -41,28 +46,45 @@ class Bot:
 
     def go_village(self):
         self.browser.goto(self.url + "/dorf2.php")
-        slots = self.browser.get_building_slots()
-        target_url = ""
 
-        for slot in slots:
-            if slot.get_building() is None:
-                target_url = slot.get_href()
-                break
+    def go_to_village(self, village_href):
+        self.browser.goto(self.url + village_href)
 
-        if target_url != "":
-            sleep(1)
-            self.browser.goto(target_url)
-
-        sleep(1)
-        self.browser.get_build_command_by_id("25")
+    def save_village_to_json(self, village: Village):
+        filename = f"./data/village_{village.id}.json"
+        with open(filename, "w") as f:
+            json.dump(village.to_dict(), f, indent=2)
+        print(f"[✓] Village data saved to {filename}")
 
     def setup(self):
-        # sleep(randrange(1, 2))
-        # self.load_storage()
-        # self.load_resources()
-        print("Skipping setup...")
+        print("Setup villages...")
+        villages = self.browser.get_villages()
+        first_village_dict = villages[0]
+        village_id, village_name = next(iter(first_village_dict.items()))
+        village_href = f"/dorf1.php?newdid={village_id}&"
+        self.go_to_village(village_href)
+        sleep(randrange(1, 2))
+        print("Villages:", villages)
+        res_fields = self.load_resources()
+        slots = self.load_slots()
+        store = self.load_storage()
+        self.current_village = Village(
+            village_name, village_id, res_fields, slots, store
+        )
+        # TODO test if current_village initiated
+        print("Current village: ", self.current_village)
+        self.save_village_to_json(self.current_village)
 
-    def load_storage(self):
+    def load_slots(self) -> List[BuildingSlot]:
+        """Gets the inner village html and parses Slots and its Building if present"""
+        sleep(randrange(1, 3))
+        self.browser.goto(self.url + "/dorf2.php")
+        sleep(randrange(1, 2))
+        slots = self.browser.get_building_slots()
+        return slots
+
+    def load_storage(self) -> Storage:
+        """Fetch and populate Warehouse and Granary instances into Storage class"""
         res = self.browser.get_resources()
         warehouse_resources = ResourceAmount(
             wood=res["wood"], clay=res["clay"], iron=res["iron"]
@@ -72,8 +94,10 @@ class Bot:
         )
 
         self.granary = Granary(res["granary_capacity"], crop=res["crop"])
+        storage = Storage(self.warehouse, self.granary)
+        return storage
 
-    def load_resources(self):
+    def load_resources(self) -> List[ResourceField.ResourceField]:
         """Fetch and populate ResourceField instances into self.resource_fields"""
         sleep(randrange(1, 2))
         res_fields_data = self.browser.get_resource_fields()
@@ -91,19 +115,7 @@ class Bot:
                 self.resource_fields.append(resource)
 
         print(f"Loaded {len(self.resource_fields)} total resource fields.")
-
-    def test_builder(self):
-        b = self.builder.get_resources()
-        print("Builder", b)
-        self.builder.build_lowest_resource()
-
-    def test_store(self):
-        gcap = self.granary.get_capacity()
-        gcrop = self.granary.get_wheat()
-        wcap = self.warehouse.get_capacity()
-        wres = self.warehouse.get_resources()
-        print("Granary: ", "capacity: " + str(gcap), "Crop:" + str(gcrop))
-        print("Warehouse: ", "capacity: " + str(wcap), "Resources: ", wres)
+        return self.resource_fields
 
     def is_logged(self):
         return self.browser.current_url() != self.url
