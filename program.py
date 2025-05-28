@@ -27,7 +27,10 @@ def main():
     sleep(1)
     bot.go_home()
     sleep(1)
-    bot.update()
+    try:
+        bot.update()
+    except Exception as e:
+        print(f"[!] Exeption found: {e}")
     # bot.go_village()
     # bot.test_store()
     # bot.test_builder()

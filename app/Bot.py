@@ -105,7 +105,9 @@ class Bot:
 
     def load_storage(self) -> Storage:
         """Fetch and populate Warehouse and Granary instances into Storage class"""
+        sleep(1)
         res = self.browser.get_resources()
+        sleep(1)
         warehouse_resources = ResourceAmount(
             wood=res["wood"], clay=res["clay"], iron=res["iron"]
         )
@@ -135,6 +137,7 @@ class Bot:
                 self.resource_fields.append(resource)
 
         print(f"Loaded {len(self.resource_fields)} total resource fields.")
+        sleep(1)
         return self.resource_fields
 
     def is_logged(self):
