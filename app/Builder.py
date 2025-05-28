@@ -3,6 +3,7 @@ import re
 from time import sleep
 from typing import List
 from app.Chrome import Chrome
+from app.data.Building import BuildingSlot
 from app.data.ResourceField import ResourceField
 
 
@@ -38,6 +39,14 @@ class Builder:
             command = self.get_build_command()
             self.browser.goto(self.base_url + command)
             sleep(randrange(1, 2))
+
+    def build_on_slot(self, slot: BuildingSlot, building_id: str):
+        target_url = slot.get_href()
+        self.browser.goto(target_url)
+        sleep(randrange(1, 2))
+
+    def new_building_on_slot(self, slot: BuildingSlot, building_name: str):
+        print("New building with id: ", slot, building_name)
 
     def get_build_command(self) -> str:
         command = "/dorf1.php"
