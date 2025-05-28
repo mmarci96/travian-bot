@@ -41,14 +41,20 @@ class Bot:
 
     def go_village(self):
         self.browser.goto(self.url + "/dorf2.php")
-        sleep(1)
         slots = self.browser.get_building_slots()
-        # print("SLOOOTS:", slots)
+        target_url = ""
+
         for slot in slots:
-            print("Slot: ", slot)
-            building = slot.get_building()
-            if building:
-                print("Buidling found on slot: ", building)
+            if slot.get_building() is None:
+                target_url = slot.get_href()
+                break
+
+        if target_url != "":
+            sleep(1)
+            self.browser.goto(target_url)
+
+        sleep(1)
+        self.browser.get_build_command_by_id("25")
 
     def setup(self):
         # sleep(randrange(1, 2))
