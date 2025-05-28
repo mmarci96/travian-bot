@@ -44,9 +44,14 @@ class Bot:
     def go_home(self):
         self.browser.goto(self.url + "/dorf1.php")
 
-    def save_village_to_json(
-        self, village: Village, filename="village_data.json"
-    ):
+    def go_village(self):
+        self.browser.goto(self.url + "/dorf2.php")
+
+    def go_to_village(self, village_href):
+        self.browser.goto(self.url + village_href)
+
+    def save_village_to_json(self, village: Village):
+        filename = f"./data/village_{village.id}.json"
         with open(filename, "w") as f:
             json.dump(village.to_dict(), f, indent=2)
         print(f"[✓] Village data saved to {filename}")
@@ -54,12 +59,17 @@ class Bot:
     def setup(self):
         print("Setup villages...")
         villages = self.browser.get_villages()
-        print("VillageIDs:", villages)
+        first_village_dict = villages[0]
+        village_id, village_name = next(iter(first_village_dict.items()))
+        village_href = f"/dorf1.php?newdid={village_id}&"
+        self.go_to_village(village_href)
+        sleep(randrange(1, 2))
+        print("Villages:", villages)
         res_fields = self.load_resources()
         slots = self.load_slots()
         store = self.load_storage()
         self.current_village = Village(
-            "idk", "/dorf1.php", res_fields, slots, store
+            village_name, village_id, res_fields, slots, store
         )
         # TODO test if current_village initiated
         print("Current village: ", self.current_village)

@@ -46,7 +46,7 @@ class Chrome:
     def get_links(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="a")
 
-    def get_villages(self) -> List[str]:
+    def get_villages(self) -> List[Dict[str, str]]:
         villages = []
         try:
             list_container = self.browser.find_element(
@@ -56,8 +56,18 @@ class Chrome:
                 By.CLASS_NAME, "dropContainer"
             )
             for village_container in village_containers:
+
                 village = village_container.get_attribute("data-sortid")
-                villages.append(village)
+                if village:
+                    village_id = village[7:]
+                    name_elem = village_container.find_element(
+                        By.XPATH,
+                        f"//span[@class='name'][@data-did='{village_id}']",
+                    )
+                    name = name_elem.text
+                    village_obj = {village_id: name}
+                    villages.append(village_obj)
+
         except Exception as e:
             print(f"[!] Failed to get village ids: {e}")
         return villages
