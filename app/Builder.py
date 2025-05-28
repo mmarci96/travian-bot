@@ -21,13 +21,15 @@ class Builder:
     def get_resources(self):
         return self.resources
 
-    def build_lowest_resource(self, resource_type="crop"):
+    def build_lowest_resource(self, resource_type="crop", target_level=5):
         lowest = None
         for res in self.resources:
             if lowest is None:
                 lowest = res
                 continue
             if res.get_resource_type() == resource_type:
+                if target_level >= res.get_level():
+                    continue
                 if res.get_level() < lowest.get_level():
                     lowest = res
 
@@ -44,6 +46,9 @@ class Builder:
         target_url = slot.get_href()
         self.browser.goto(target_url)
         sleep(randrange(1, 2))
+        target_url = self.browser.get_build_command_by_id(building_id)
+        sleep(randrange(1, 2))
+        self.browser.goto(target_url)
 
     def new_building_on_slot(self, slot: BuildingSlot, building_name: str):
         print("New building with id: ", slot, building_name)

@@ -29,6 +29,9 @@ class BuildingSlot:
     def set_building(self, building: Building):
         self.building = building
 
+    def get_href(self):
+        return self.href
+
     def get_building(self) -> Building | None:
         return self.building
 

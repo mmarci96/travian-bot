@@ -1,17 +1,11 @@
 {
-  "name": "ZeroOne`s village",
-  "href": "25925",
+  "name": "New village",
+  "href": "26380",
   "resource_fields": [
     {
       "resource_type": "wood",
-      "slot": 1,
-      "href": "https://united.x3.balkans.travian.com/build.php?id=1",
-      "level": 6
-    },
-    {
-      "resource_type": "wood",
-      "slot": 3,
-      "href": "https://united.x3.balkans.travian.com/build.php?id=3",
+      "slot": 4,
+      "href": "https://united.x3.balkans.travian.com/build.php?id=4",
       "level": 5
     },
     {
@@ -52,8 +46,8 @@
     },
     {
       "resource_type": "iron",
-      "slot": 4,
-      "href": "https://united.x3.balkans.travian.com/build.php?id=4",
+      "slot": 1,
+      "href": "https://united.x3.balkans.travian.com/build.php?id=1",
       "level": 5
     },
     {
@@ -78,6 +72,12 @@
       "resource_type": "crop",
       "slot": 2,
       "href": "https://united.x3.balkans.travian.com/build.php?id=2",
+      "level": 5
+    },
+    {
+      "resource_type": "crop",
+      "slot": 3,
+      "href": "https://united.x3.balkans.travian.com/build.php?id=3",
       "level": 5
     },
     {
@@ -118,7 +118,7 @@
       "building": {
         "id": "10",
         "name": "Warehouse",
-        "level": 5
+        "level": 2
       }
     },
     {
@@ -147,7 +147,7 @@
       "building": {
         "id": "11",
         "name": "Granary",
-        "level": 4
+        "level": 2
       }
     },
     {
@@ -161,7 +161,7 @@
       "building": {
         "id": "15",
         "name": "Main Building",
-        "level": 5
+        "level": 1
       }
     },
     {
@@ -171,12 +171,8 @@
     },
     {
       "slot_id": "28",
-      "href": "https://united.x3.balkans.travian.com/build.php?id=28&gid=18",
-      "building": {
-        "id": "18",
-        "name": "Embassy",
-        "level": 3
-      }
+      "href": "https://united.x3.balkans.travian.com/build.php?id=28",
+      "building": null
     },
     {
       "slot_id": "29",
@@ -230,12 +226,8 @@
     },
     {
       "slot_id": "39",
-      "href": "https://united.x3.balkans.travian.com/build.php?id=39&gid=16",
-      "building": {
-        "id": "16",
-        "name": "Rally Point",
-        "level": 1
-      }
+      "href": "https://united.x3.balkans.travian.com/build.php?id=39",
+      "building": null
     },
     {
       "slot_id": "40",
@@ -245,16 +237,16 @@
   ],
   "storage": {
     "warehouse": {
-      "capacity": 4000,
+      "capacity": 1700,
       "resources": {
-        "wood": 4000,
-        "clay": 4000,
-        "iron": 4000
+        "wood": 1700,
+        "clay": 1700,
+        "iron": 1700
       }
     },
     "granary": {
-      "capacity": 3100,
-      "crop": 3100
+      "capacity": 1700,
+      "crop": 1700
     }
   },
   "res_tasks": [

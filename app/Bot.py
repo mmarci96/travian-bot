@@ -12,6 +12,7 @@ from app.data.Building import BuildingSlot
 from app.data.Granary import Granary
 from app.data.ResourceAmount import ResourceAmount
 from app.data.Storage import Storage
+from app.data.Task import BuildingTask, ResourceTask
 from app.data.Village import Village
 from app.data.Warehouse import Warehouse
 
@@ -31,6 +32,7 @@ class Bot:
         self.browser = Chrome.Chrome(headless=False)
         self.resource_fields = []
         self.builder = Builder(self.browser, self.resource_fields, self.url)
+        self.villages: List[Village] = []
 
     def login(self):
         self.browser.goto(self.url)
@@ -59,21 +61,39 @@ class Bot:
     def setup(self):
         print("Setup villages...")
         villages = self.browser.get_villages()
-        first_village_dict = villages[0]
-        village_id, village_name = next(iter(first_village_dict.items()))
-        village_href = f"/dorf1.php?newdid={village_id}&"
+        for village in villages:
+            village_id, village_name = next(iter(village.items()))
+            self.load_village(village_id, village_name)
+
+    def update(self):
+        for village in self.villages:
+            if len(village.res_task) > 0:
+                for res_task in village.res_task:
+                    self.browser.goto(
+                        self.url + f"/dorf1.php?newdid={village.id}&"
+                    )
+                    sleep(randrange(1, 2))
+                    self.builder.build_lowest_resource(
+                        res_task.resouce_type, res_task.target_level
+                    )
+                    sleep(randrange(1, 2))
+
+    def load_village(self, id: str, name: str):
+        sleep(randrange(1, 2))
+        village_href = f"/dorf1.php?newdid={id}&"
         self.go_to_village(village_href)
         sleep(randrange(1, 2))
-        print("Villages:", villages)
         res_fields = self.load_resources()
         slots = self.load_slots()
         store = self.load_storage()
-        self.current_village = Village(
-            village_name, village_id, res_fields, slots, store
+        res_task = ResourceTask("wood", 6)
+        build_task = BuildingTask("20", "17")
+
+        current_village = Village(
+            name, id, res_fields, slots, store, [res_task], [build_task]
         )
-        # TODO test if current_village initiated
-        print("Current village: ", self.current_village)
-        self.save_village_to_json(self.current_village)
+        self.villages.append(current_village)
+        self.save_village_to_json(current_village)
 
     def load_slots(self) -> List[BuildingSlot]:
         """Gets the inner village html and parses Slots and its Building if present"""
