@@ -50,6 +50,17 @@ class Bot:
     def go_to_village(self, village_href):
         self.browser.goto(self.url + village_href)
 
+    def test_build(self):
+        wood_upgrade_task = ResourceTask("wood", 7)
+        village = self.villages[0]
+        if not village:
+            return
+        print("Testing village: ", village)
+        village.builder.add_res_task(wood_upgrade_task)
+        print("Added task: ", village.builder.get_res_tasks())
+        self.go_to_village(village.get_href())
+        village.__href
+
     def save_village_to_json(self, village: Village):
         filename = f"./data/village_{village.id}.json"
         with open(filename, "w") as f:
@@ -66,7 +77,7 @@ class Bot:
     def update(self):
         for village in self.villages:
             sleep(randrange(1, 2))
-            self.go_to_village(village.href)
+            self.go_to_village(village.__href)
             sleep(randrange(1, 3))
             village.do_res_task()
             sleep(randrange(1, 2))
@@ -91,13 +102,6 @@ class Bot:
             builder,
             store,
         )
-
-        # Adding tasks for testing, remove later
-        upgrade_wood_task = ResourceTask("wood", 7)
-        build_cranny_task = BuildingTask("20", "23")
-        current_village.add_res_task(upgrade_wood_task)
-        current_village.add_build_task(build_cranny_task)
-
         self.villages.append(current_village)
         self.save_village_to_json(current_village)
 
@@ -108,7 +112,9 @@ class Bot:
         self.browser.goto(self.url + "/dorf2.php")
         sleep(randrange(1, 2))
         slots = self.browser.get_building_slots()
-        return slots
+        if slots:
+            return slots
+        return []
 
     def load_storage(self) -> Storage:
         """Fetch and populate Warehouse and Granary instances into Storage class

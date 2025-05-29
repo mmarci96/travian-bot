@@ -1,5 +1,5 @@
 import re
-from typing import Dict, List
+from typing import Dict, List, Optional
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 
@@ -47,7 +47,7 @@ class Chrome:
     def get_links(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="a")
 
-    def get_build_command_by_id(self, building_id: str):
+    def get_build_command_by_id(self, building_id: str) -> Optional[str]:
         command = None
         try:
             container = self.browser.find_element(
@@ -60,7 +60,7 @@ class Chrome:
             onclick_value = button.get_attribute("onclick")
             if onclick_value:
                 match = re.search(r"'(.*?)'", onclick_value)
-                if match:
+                if match is str:
                     command = match.group(1)
                     print(f"[✓] ID: {building_id} | Parsed URL: {command}")
                 else:
@@ -95,7 +95,7 @@ class Chrome:
             print(f"[!] Failed to get village ids: {e}")
         return villages
 
-    def get_building_slots(self):
+    def get_building_slots(self) -> Optional[List[BuildingSlot]]:
         building_slots = []
         try:
             container = self.browser.find_element(By.ID, "villageContent")

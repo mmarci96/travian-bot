@@ -12,6 +12,9 @@ class ResourceTask:
             "target_level": self.target_level,
         }
 
+    def __repr__(self):
+        return f"<Task (Resource: {self.resouce_type}), Target level: {self.target_level})>"
+
 
 class BuildingTask:
     """docstring for BuildingTask."""
@@ -23,3 +26,6 @@ class BuildingTask:
 
     def to_dict(self):
         return {"slot_id": self.slot_id, "building_id": self.building_id}
+
+    def __repr__(self):
+        return f"<BuildingTask (SlotID: {self.slot_id}), BuildingID level: {self.building_id})>"

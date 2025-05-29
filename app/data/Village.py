@@ -17,7 +17,7 @@ class Village:
         self.name = name
         self.id = id
         self.storage = storage
-        self.href = f"/dorf1.php?newdid={id}&"
+        self.__href = f"/dorf1.php?newdid={id}&"
         self.builder = builder
 
     def do_res_task(self):
@@ -46,6 +46,9 @@ class Village:
     def add_res_task(self, resouce_task: ResourceTask):
         self.builder.add_res_task(resouce_task)
 
+    def get_href(self):
+        return self.__href
+
     def to_dict(self):
         return {
             "name": self.name,
@@ -65,5 +68,5 @@ class Village:
 
     def __repr__(self):
         return (
-            f"<Village (Name: {self.name}) (ID: {self.id}| Href:{self.href})>"
+            f"<Village (Name: {self.name}) (ID: {self.id}| Href:{self.__href})>"
         )

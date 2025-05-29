@@ -71,7 +71,10 @@ class Builder:
             existing_task.resouce_type == task.resouce_type
             for existing_task in self.res_tasks
         ):
+            print("Added task", task)
             self.res_tasks.append(task)
+        else:
+            print("Task exists: ", self.res_tasks)
 
     def add_build_task(self, task: BuildingTask):
         """Add a building task if it's not a duplicate."""
