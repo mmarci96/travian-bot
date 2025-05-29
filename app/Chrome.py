@@ -125,6 +125,8 @@ class Chrome:
         return building_slots
 
     def get_resource_fields(self):
+        """Find all resource fields in the DOM and returns and Object of arrays,
+        one for each resource type (wood, clay, iron, wheat)"""
         resource_field_classes = {
             "gid1": "wood",
             "gid2": "clay",
@@ -145,7 +147,6 @@ class Chrome:
                 classes = class_attr.split() if class_attr else []
                 href = link.get_attribute("href")
 
-                # Match resource type
                 resource_type = None
                 for cls in classes:
                     if cls in resource_field_classes:
@@ -153,7 +154,7 @@ class Chrome:
                         break
 
                 if not resource_type:
-                    continue  # Skip if no known resource type
+                    continue
 
                 level = 0
                 slot = 0
