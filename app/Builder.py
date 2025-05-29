@@ -72,7 +72,6 @@ class Builder:
             existing_task.resouce_type == task.resouce_type
             for existing_task in self.res_tasks
         ):
-            print("Added task", task)
             self.res_tasks.append(task)
         else:
             print("Task exists: ", self.res_tasks)
@@ -86,31 +85,27 @@ class Builder:
         ):
             self.building_tasks.append(task)
 
-    def build_lowest_resource(self, resource_type="crop", target_level=5):
+    def build_lowest_resource(self, resource_type: str, target_level: int):
         lowest = None
-
         for res in self.resources:
             if res.get_resource_type() != resource_type:
                 continue
             if res.get_level() >= target_level:
                 continue
             if lowest is None or res.get_level() < lowest.get_level():
-                print("[-] Lowest resource found: ", res)
                 lowest = res
 
         if lowest:
-            print("Building resource:", lowest)
+            print("[-]Building lowest resource found: ", lowest)
             sleep(1)
-            print("Got to res url resource:", lowest)
             self.browser.goto(lowest.get_href())
             sleep(randrange(2, 3))
             command = self.get_build_command()
-            print("Command from buttom: ", command)
             self.browser.goto(self.base_url + command)
             sleep(randrange(1, 2))
         else:
             print(
-                f"No {resource_type} fields below level {target_level} found."
+                f"[!]No {resource_type} fields below level {target_level} found."
             )
 
     def build_on_slot(self, slot_id: str, building_id: str):
@@ -134,7 +129,7 @@ class Builder:
     def get_build_command(self) -> str:
         command = "/dorf1.php"
         buttons = self.browser.get_buttons()
-        print(f"Found {len(buttons)} button:")
+        # print(f"Found {len(buttons)} button:")
         for button in buttons:
             text = (button.text or "").strip()
             if "level" in text.lower():
@@ -146,6 +141,8 @@ class Builder:
                         print(f"[✓] {text} | Parsed URL: {command}")
                     else:
                         print(f"[!] {text} | No URL found in onclick.")
+            else:
+                print(f"[-] {text} | No button matches returning:{command}")
         return command
 
     def to_dist(self):

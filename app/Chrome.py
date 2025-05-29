@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import re
 from typing import Dict, List, Optional
 import undetected_chromedriver as uc
@@ -8,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from app.data.Building import Building, BuildingSlot
+from app.data.Construction import Construction
 
 
 class Chrome:
@@ -38,8 +40,8 @@ class Chrome:
                 EC.element_to_be_clickable((By.CLASS_NAME, class_name))
             )
             button.click()
-        except Exception as e:
-            print(f"[!] Failed to click element with class '{class_name}': {e}")
+        except Exception:
+            print(f"[!] Failed to click element with class '{class_name}'")
 
     def get_buttons(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="button")
@@ -67,8 +69,53 @@ class Chrome:
                 else:
                     print(f"[!] ID: {building_id} | No URL found in onclick.")
             return command
-        except Exception as e:
-            print(f"[!] Warning, not found element err: {e}")
+        except Exception:
+            msg = "Warning, not found element err, no valid command for buildID"
+            print(f"[!] {msg}:{building_id}")
+
+    def get_building_list(self):
+        building_list = []
+        try:
+            building_list_contianer = self.browser.find_element(
+                By.CLASS_NAME, "buildingList"
+            )
+            li_elements = building_list_contianer.find_elements(
+                By.TAG_NAME, "li"
+            )
+            for li_elem in li_elements:
+                timer_element = li_elem.find_element(
+                    By.CLASS_NAME, "buildDuration"
+                )
+                time_str = timer_element.text
+                # print(time_str) -> 0:18:04 hrs. done at 23:46
+                done_at_match = re.search(r"done at (\d{2}:\d{2})", time_str)
+                if not done_at_match:
+                    raise ValueError("Invalid format")
+                done_at_str = done_at_match.group(1)
+
+                now = datetime.now()
+                finish_time_today = datetime.strptime(
+                    done_at_str, "%H:%M"
+                ).replace(year=now.year, month=now.month, day=now.day)
+                if finish_time_today < now:
+                    finish_time_today += timedelta(days=1)
+
+                name_element = li_elem.find_element(By.CLASS_NAME, "name")
+                name = name_element.text
+
+                lvl_elem = name_element.find_element(By.CLASS_NAME, "lvl")
+                level = lvl_elem.text
+                print("Level: ", level[6:])
+                lvl = int(level[6:])
+
+                if name and level:
+                    c = Construction(name, lvl, finish_time_today)
+                    print("[-] Construction", c)
+                    print(f"Name:{name} - Level: {level} - Timeleft:{time_str}")
+                    building_list.append({name, level})
+            return building_list
+        except Exception:
+            print("[!] Failed to find element with class buildingList")
 
     def get_villages(self) -> List[Dict[str, str]]:
         villages = []
@@ -80,7 +127,6 @@ class Chrome:
                 By.CLASS_NAME, "dropContainer"
             )
             for village_container in village_containers:
-
                 village = village_container.get_attribute("data-sortid")
                 if village:
                     village_id = village[7:]
@@ -91,9 +137,8 @@ class Chrome:
                     name = name_elem.text
                     village_obj = {village_id: name}
                     villages.append(village_obj)
-
-        except Exception as e:
-            print(f"[!] Failed to get village ids: {e}")
+        except Exception:
+            print("[!] Failed to get village ids")
         return villages
 
     def get_building_slots(self) -> Optional[List[BuildingSlot]]:
@@ -118,8 +163,8 @@ class Chrome:
                         s.set_building(b)
                     building_slots.append(s)
             return building_slots
-        except Exception as e:
-            print(f"[!] Failed to get building slot: {e}")
+        except Exception:
+            print("[!] Failed to get building slot")
 
     def get_resource_fields(self):
         """Find all resource fields in the DOM and returns and Object of arrays,
@@ -181,8 +226,8 @@ class Chrome:
                     }
                 )
 
-        except Exception as e:
-            print(f"[!] Failed to get resource fields: {e}")
+        except Exception:
+            print("[!] Failed to get resource fields ")
 
         return resource_fields
 
@@ -236,8 +281,8 @@ class Chrome:
                 print("[!] Could not find both capacity values.")
                 resources["warehouse_capacity"] = None
                 resources["granary_capacity"] = None
-        except Exception as e:
-            print(f"[!] Failed to get capacities: {e}")
+        except Exception:
+            print("[!] Failed to get capacities")
             resources["warehouse_capacity"] = None
             resources["granary_capacity"] = None
 

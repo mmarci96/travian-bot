@@ -57,20 +57,15 @@ class Bot:
             return
 
         for village in self.villages:
-            # village = self.villages[0]
-            print("Testing village: ", village)
+            print("[✓]Testing village: ", village)
             village.builder.add_res_task(wood_upgrade_task)
-            print("Added task: ", village.builder.get_res_tasks())
             self.go_to_village(village.get_href())
             sleep(randrange(1, 2))
             village.do_res_task()
             sleep(randrange(1, 2))
 
-        if len(self.villages) < 2:
-            print("No second village")
-            return
         second_village = self.villages[0]
-        build_cranny_task = BuildingTask("29", "23")
+        build_cranny_task = BuildingTask("30", "23")
         sleep(randrange(1, 2))
         second_village.add_build_task(build_cranny_task)
         self.go_to_village(second_village.get_href())
@@ -84,7 +79,7 @@ class Bot:
         print(f"[✓] Village data saved to {filename}")
 
     def setup(self):
-        print("Setup villages...")
+        print("[+]Setup villages...")
         villages = self.browser.get_villages()
         for village in villages:
             village_id, village_name = next(iter(village.items()))
@@ -110,6 +105,8 @@ class Bot:
         res_fields = self.load_resources()
         slots = self.load_slots()
         store = self.load_storage()
+        constructions = self.browser.get_building_list()
+        print("constructions: ", constructions)
         sleep(randrange(1, 2))
         builder = Builder(self.browser, self.url, res_fields, slots)
 
