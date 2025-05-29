@@ -118,7 +118,7 @@
       "building": {
         "id": "10",
         "name": "Warehouse",
-        "level": 5
+        "level": 6
       }
     },
     {
@@ -147,7 +147,7 @@
       "building": {
         "id": "11",
         "name": "Granary",
-        "level": 4
+        "level": 5
       }
     },
     {
@@ -245,16 +245,16 @@
   ],
   "storage": {
     "warehouse": {
-      "capacity": 4000,
+      "capacity": 5000,
       "resources": {
-        "wood": 3887,
-        "clay": 2479,
-        "iron": 3635
+        "wood": 5000,
+        "clay": 5000,
+        "iron": 5000
       }
     },
     "granary": {
-      "capacity": 3100,
-      "crop": 2600
+      "capacity": 4000,
+      "crop": 4000
     }
   },
   "res_tasks": [],

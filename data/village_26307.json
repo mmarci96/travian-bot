@@ -118,7 +118,7 @@
       "building": {
         "id": "10",
         "name": "Warehouse",
-        "level": 3
+        "level": 4
       }
     },
     {
@@ -147,7 +147,7 @@
       "building": {
         "id": "11",
         "name": "Granary",
-        "level": 3
+        "level": 4
       }
     },
     {
@@ -176,8 +176,12 @@
     },
     {
       "slot_id": "29",
-      "href": "https://united.x3.balkans.travian.com/build.php?id=29",
-      "building": null
+      "href": "https://united.x3.balkans.travian.com/build.php?id=29&gid=23",
+      "building": {
+        "id": "23",
+        "name": "Cranny",
+        "level": 1
+      }
     },
     {
       "slot_id": "30",
@@ -237,16 +241,16 @@
   ],
   "storage": {
     "warehouse": {
-      "capacity": 2300,
+      "capacity": 3100,
       "resources": {
-        "wood": 2300,
-        "clay": 2300,
-        "iron": 2300
+        "wood": 3100,
+        "clay": 3100,
+        "iron": 3100
       }
     },
     "granary": {
-      "capacity": 2300,
-      "crop": 2300
+      "capacity": 3100,
+      "crop": 3100
     }
   },
   "res_tasks": [],

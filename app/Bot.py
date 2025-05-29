@@ -56,17 +56,20 @@ class Bot:
             print("No village")
             return
 
-        village = self.villages[2]
-        print("Testing village: ", village)
-        village.builder.add_res_task(wood_upgrade_task)
-        print("Added task: ", village.builder.get_res_tasks())
-        self.go_to_village(village.get_href())
-        village.do_res_task()
+        for village in self.villages:
+            # village = self.villages[0]
+            print("Testing village: ", village)
+            village.builder.add_res_task(wood_upgrade_task)
+            print("Added task: ", village.builder.get_res_tasks())
+            self.go_to_village(village.get_href())
+            sleep(randrange(1, 2))
+            village.do_res_task()
+            sleep(randrange(1, 2))
 
         if len(self.villages) < 2:
             print("No second village")
             return
-        second_village = self.villages[1]
+        second_village = self.villages[0]
         build_cranny_task = BuildingTask("29", "23")
         sleep(randrange(1, 2))
         second_village.add_build_task(build_cranny_task)
