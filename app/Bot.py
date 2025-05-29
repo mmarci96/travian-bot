@@ -105,10 +105,9 @@ class Bot:
         res_fields = self.load_resources()
         slots = self.load_slots()
         store = self.load_storage()
-        constructions = self.browser.get_building_list()
-        print("constructions: ", constructions)
+        constructions = self.browser.load_constructions()
         sleep(randrange(1, 2))
-        builder = Builder(self.browser, self.url, res_fields, slots)
+        builder = Builder(self.browser, self.url, res_fields, slots, constructions)
 
         current_village = Village(
             name,

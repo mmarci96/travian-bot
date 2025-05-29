@@ -73,8 +73,8 @@ class Chrome:
             msg = "Warning, not found element err, no valid command for buildID"
             print(f"[!] {msg}:{building_id}")
 
-    def get_building_list(self):
-        building_list = []
+    def load_constructions(self) -> List[Construction]:
+        building_list:List[Construction] = []
         try:
             building_list_contianer = self.browser.find_element(
                 By.CLASS_NAME, "buildingList"
@@ -87,7 +87,6 @@ class Chrome:
                     By.CLASS_NAME, "buildDuration"
                 )
                 time_str = timer_element.text
-                # print(time_str) -> 0:18:04 hrs. done at 23:46
                 done_at_match = re.search(r"done at (\d{2}:\d{2})", time_str)
                 if not done_at_match:
                     raise ValueError("Invalid format")
@@ -105,17 +104,15 @@ class Chrome:
 
                 lvl_elem = name_element.find_element(By.CLASS_NAME, "lvl")
                 level = lvl_elem.text
-                print("Level: ", level[6:])
                 lvl = int(level[6:])
 
                 if name and level:
                     c = Construction(name, lvl, finish_time_today)
                     print("[-] Construction", c)
-                    print(f"Name:{name} - Level: {level} - Timeleft:{time_str}")
-                    building_list.append({name, level})
-            return building_list
+                    building_list.append(c)
         except Exception:
             print("[!] Failed to find element with class buildingList")
+        return building_list
 
     def get_villages(self) -> List[Dict[str, str]]:
         villages = []

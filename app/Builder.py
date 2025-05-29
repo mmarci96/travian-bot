@@ -4,6 +4,7 @@ from time import sleep
 from typing import List, Optional
 from app.Chrome import Chrome
 from app.data.Building import BuildingSlot
+from app.data.Construction import Construction
 from app.data.ResourceField import ResourceField
 from app.data.Task import BuildingTask, ResourceTask
 
@@ -18,6 +19,7 @@ class Builder:
         base_url: str,
         resources: List[ResourceField],
         slots: List[BuildingSlot],
+        contructions: List[Construction],
         building_tasks: List[BuildingTask] = [],
         res_tasks: List[ResourceTask] = [],
     ):
@@ -26,6 +28,7 @@ class Builder:
         self.base_url = base_url
         self.resources = resources
         self.slots = slots
+        self.contructions = contructions
         self.building_tasks = building_tasks
         self.res_tasks = res_tasks
 
@@ -111,9 +114,9 @@ class Builder:
     def build_on_slot(self, slot_id: str, building_id: str):
         sleep(1)
         slot = self.get_slot_by_id(slot_id)
-        print("Build on slot: ", slot)
+        print("[+] Build on slot: ", slot)
         if slot is None:
-            print("no slot found")
+            print("[!] No slot found")
             return
         target_url = slot.get_href()
         self.browser.goto(target_url)
@@ -122,9 +125,6 @@ class Builder:
         if command_target_url:
             sleep(randrange(1, 2))
             self.browser.goto(self.base_url + command_target_url)
-
-    def new_building_on_slot(self, slot: BuildingSlot, building_name: str):
-        print("New building with id: ", slot, building_name)
 
     def get_build_command(self) -> str:
         command = "/dorf1.php"
@@ -141,8 +141,6 @@ class Builder:
                         print(f"[✓] {text} | Parsed URL: {command}")
                     else:
                         print(f"[!] {text} | No URL found in onclick.")
-            else:
-                print(f"[-] {text} | No button matches returning:{command}")
         return command
 
     def to_dist(self):
