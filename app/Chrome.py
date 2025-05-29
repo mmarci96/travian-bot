@@ -65,11 +65,9 @@ class Chrome:
                     print(f"[✓] ID: {building_id} | Parsed URL: {command}")
                 else:
                     print(f"[!] ID: {building_id} | No URL found in onclick.")
-
+            return command
         except Exception as e:
             print(f"[!] Warning, not found element err: {e}")
-        print("Command: ", command)
-        return command
 
     def get_villages(self) -> List[Dict[str, str]]:
         villages = []
@@ -97,7 +95,7 @@ class Chrome:
             print(f"[!] Failed to get village ids: {e}")
         return villages
 
-    def get_building_slots(self) -> List[BuildingSlot]:
+    def get_building_slots(self):
         building_slots = []
         try:
             container = self.browser.find_element(By.ID, "villageContent")
@@ -118,11 +116,9 @@ class Chrome:
                         b = Building(building_id, name, int(level))
                         s.set_building(b)
                     building_slots.append(s)
-
+            return building_slots
         except Exception as e:
             print(f"[!] Failed to get building slot: {e}")
-
-        return building_slots
 
     def get_resource_fields(self):
         """Find all resource fields in the DOM and returns and Object of arrays,

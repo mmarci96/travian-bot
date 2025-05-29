@@ -54,7 +54,7 @@
       "resource_type": "iron",
       "slot": 4,
       "href": "https://united.x3.balkans.travian.com/build.php?id=4",
-      "level": 5
+      "level": 6
     },
     {
       "resource_type": "iron",
@@ -247,8 +247,8 @@
     "warehouse": {
       "capacity": 4000,
       "resources": {
-        "wood": 3853,
-        "clay": 3916,
+        "wood": 4000,
+        "clay": 4000,
         "iron": 4000
       }
     },
@@ -260,13 +260,13 @@
   "res_tasks": [
     {
       "slot_id": "20",
-      "building_id": "17"
+      "building_id": "23"
     }
   ],
   "build_task": [
     {
       "resource_type": "wood",
-      "target_level": 6
+      "target_level": 7
     }
   ]
 }

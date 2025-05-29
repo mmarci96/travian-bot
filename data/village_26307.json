@@ -12,7 +12,7 @@
       "resource_type": "wood",
       "slot": 4,
       "href": "https://united.x3.balkans.travian.com/build.php?id=4",
-      "level": 5
+      "level": 6
     },
     {
       "resource_type": "wood",
@@ -240,8 +240,8 @@
       "capacity": 2300,
       "resources": {
         "wood": 2300,
-        "clay": 2062,
-        "iron": 2251
+        "clay": 2300,
+        "iron": 2300
       }
     },
     "granary": {
@@ -252,13 +252,13 @@
   "res_tasks": [
     {
       "slot_id": "20",
-      "building_id": "17"
+      "building_id": "23"
     }
   ],
   "build_task": [
     {
       "resource_type": "wood",
-      "target_level": 6
+      "target_level": 7
     }
   ]
 }
