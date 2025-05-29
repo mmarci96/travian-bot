@@ -9,7 +9,8 @@ from app.data.Task import BuildingTask, ResourceTask
 
 
 class Builder:
-    """docstring for Builder."""
+    """Builder to handle building resources and infrastucture. Has a list of
+    commads. Stores active contructions"""
 
     def __init__(
         self,
@@ -94,14 +95,17 @@ class Builder:
             if res.get_level() >= target_level:
                 continue
             if lowest is None or res.get_level() < lowest.get_level():
+                print("[-] Lowest resource found: ", res)
                 lowest = res
 
         if lowest:
             print("Building resource:", lowest)
             sleep(1)
+            print("Got to res url resource:", lowest)
             self.browser.goto(lowest.get_href())
             sleep(randrange(2, 3))
             command = self.get_build_command()
+            print("Command from buttom: ", command)
             self.browser.goto(self.base_url + command)
             sleep(randrange(1, 2))
         else:
@@ -110,16 +114,19 @@ class Builder:
             )
 
     def build_on_slot(self, slot_id: str, building_id: str):
+        sleep(1)
         slot = self.get_slot_by_id(slot_id)
+        print("Build on slot: ", slot)
         if slot is None:
+            print("no slot found")
             return
         target_url = slot.get_href()
         self.browser.goto(target_url)
         sleep(randrange(1, 2))
-        target_url = self.browser.get_build_command_by_id(building_id)
-        if target_url is str:
+        command_target_url = self.browser.get_build_command_by_id(building_id)
+        if command_target_url:
             sleep(randrange(1, 2))
-            self.browser.goto(target_url)
+            self.browser.goto(self.base_url + command_target_url)
 
     def new_building_on_slot(self, slot: BuildingSlot, building_name: str):
         print("New building with id: ", slot, building_name)
@@ -134,12 +141,11 @@ class Builder:
                 onclick_value = button.get_attribute("onclick")
                 if onclick_value:
                     match = re.search(r"'(.*?)'", onclick_value)
-                    if match is str:
+                    if match and match.group(1) != "disabled":
                         command = match.group(1)
                         print(f"[✓] {text} | Parsed URL: {command}")
                     else:
                         print(f"[!] {text} | No URL found in onclick.")
-
         return command
 
     def to_dist(self):

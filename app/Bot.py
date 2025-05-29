@@ -51,15 +51,28 @@ class Bot:
         self.browser.goto(self.url + village_href)
 
     def test_build(self):
-        wood_upgrade_task = ResourceTask("wood", 7)
-        village = self.villages[0]
-        if not village:
+        wood_upgrade_task = ResourceTask("crop", 7)
+        if len(self.villages) == 0:
+            print("No village")
             return
+
+        village = self.villages[2]
         print("Testing village: ", village)
         village.builder.add_res_task(wood_upgrade_task)
         print("Added task: ", village.builder.get_res_tasks())
         self.go_to_village(village.get_href())
-        village.__href
+        village.do_res_task()
+
+        if len(self.villages) < 2:
+            print("No second village")
+            return
+        second_village = self.villages[1]
+        build_cranny_task = BuildingTask("29", "23")
+        sleep(randrange(1, 2))
+        second_village.add_build_task(build_cranny_task)
+        self.go_to_village(second_village.get_href())
+        sleep(1)
+        second_village.do_building_task()
 
     def save_village_to_json(self, village: Village):
         filename = f"./data/village_{village.id}.json"
@@ -94,6 +107,7 @@ class Bot:
         res_fields = self.load_resources()
         slots = self.load_slots()
         store = self.load_storage()
+        sleep(randrange(1, 2))
         builder = Builder(self.browser, self.url, res_fields, slots)
 
         current_village = Village(
@@ -119,14 +133,12 @@ class Bot:
     def load_storage(self) -> Storage:
         """Fetch and populate Warehouse and Granary instances into Storage class
         in the current village then returns it"""
-        sleep(1)
+        sleep(randrange(1, 2))
         res = self.browser.get_resources()
-        sleep(1)
         warehouse_resources = ResourceAmount(
             wood=res["wood"], clay=res["clay"], iron=res["iron"]
         )
         warehouse = Warehouse(res["warehouse_capacity"], warehouse_resources)
-
         granary = Granary(res["granary_capacity"], crop=res["crop"])
         storage = Storage(warehouse, granary)
         return storage
@@ -150,7 +162,6 @@ class Bot:
                 resource_fields.append(resource)
 
         print(f"Loaded {len(resource_fields)} total resource fields.")
-        sleep(1)
         return resource_fields
 
     def is_logged(self):

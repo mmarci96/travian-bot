@@ -11,9 +11,6 @@ def main():
     url = sys.argv[1]
     username = sys.argv[2]
     password = sys.argv[3]
-    # targets = sys.argv[4].split(",")
-    # min = sys.argv[5]
-    # max = sys.argv[6]
 
     bot = Bot(url, username, password)
     bot.login()
@@ -22,16 +19,8 @@ def main():
         print("Incorrect username and password")
         return
 
-    # bot.go_home()
     bot.setup()
-    sleep(1)
     bot.test_build()
-    # bot.go_home()
-    # sleep(1)
-    # try:
-    # bot.update()
-    # except Exception as e:
-    # print(f"[!] Exeption found: {e}")
 
 
 if __name__ == "__main__":

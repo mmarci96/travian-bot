@@ -29,6 +29,7 @@ class Village:
                 task.resouce_type, task.target_level
             )
             self.builder.remove_res_task(task)
+            return
         print("[✓] All resource upgrade tasks are finished!")
 
     def do_building_task(self):

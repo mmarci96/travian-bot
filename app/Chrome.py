@@ -48,7 +48,7 @@ class Chrome:
         return self.browser.find_elements(by=By.TAG_NAME, value="a")
 
     def get_build_command_by_id(self, building_id: str) -> Optional[str]:
-        command = None
+        command = "/dorf2.php"
         try:
             container = self.browser.find_element(
                 By.ID, "contract_building" + building_id
@@ -59,8 +59,9 @@ class Chrome:
 
             onclick_value = button.get_attribute("onclick")
             if onclick_value:
+                print("Onclick val fiund: ", onclick_value)
                 match = re.search(r"'(.*?)'", onclick_value)
-                if match is str:
+                if match:
                     command = match.group(1)
                     print(f"[✓] ID: {building_id} | Parsed URL: {command}")
                 else:
