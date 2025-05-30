@@ -50,37 +50,6 @@ class Bot:
     def go_to_village(self, village_href):
         self.browser.goto(self.url + village_href)
 
-    def test_build(self):
-        wood_upgrade_task = ResourceTask("iron", 7)
-        if len(self.villages) == 0:
-            print("[!] No village found.")
-            return
-
-        for village in self.villages:
-            print("[✓] Testing village: ", village)
-            village.builder.add_res_task(wood_upgrade_task)
-            self.go_to_village(village.get_href())
-            # sleep(randrange(1, 2))
-            # print("[-] Back to home page...")
-            # self.go_home()
-            sleep(randrange(1, 2))
-            village.do_res_task()
-            sleep(randrange(1, 2))
-
-        # second_village = self.villages[0]
-        # build_cranny_task = BuildingTask("30", "23")
-        # sleep(randrange(1, 2))
-        # second_village.add_build_task(build_cranny_task)
-        # self.go_to_village(second_village.get_href())
-        # sleep(1)
-        # second_village.do_building_task()
-
-    def save_village_to_json(self, village: Village):
-        filename = f"./data/village_{village.id}.json"
-        with open(filename, "w") as f:
-            json.dump(village.to_dict(), f, indent=2)
-        print(f"[✓] Village data saved to {filename}")
-
     def setup(self):
         print("[+] Setup villages...")
         villages = self.browser.get_villages()
@@ -90,7 +59,6 @@ class Bot:
         print("[✓] Villages loaded")
 
     def update(self):
-        # villages = self.browser.get_villages()
         print("[✓] Started updating villages.")
         for village in self.villages:
             id = village.get_id()
@@ -109,6 +77,20 @@ class Bot:
             )
             village.update_data(builder, store)
             village.build_res_idle()
+
+    def test_build(self):
+        upgrade_task = ResourceTask("wood", 7)
+        if len(self.villages) == 0:
+            print("[!] No village found.")
+            return
+
+        for village in self.villages:
+            print("[✓] Testing village: ", village)
+            village.builder.add_res_task(upgrade_task)
+            self.go_to_village(village.get_href())
+            sleep(randrange(1, 2))
+            village.do_res_task()
+            sleep(randrange(1, 2))
 
     def load_village(self, id: str, name: str):
         """Scans the village by its ID and name populating the data for
@@ -165,10 +147,9 @@ class Bot:
     def load_resources(self) -> List[ResourceField.ResourceField]:
         """Fetch and populate ResourceField the returns a list of the resouces
         of the village"""
+        resource_fields = []
         sleep(randrange(1, 2))
         res_fields_data = self.browser.get_resource_fields()
-
-        resource_fields = []
 
         for res_type, fields in res_fields_data.items():
             for field in fields:
@@ -185,3 +166,11 @@ class Bot:
 
     def is_logged(self):
         return self.browser.current_url() != self.url
+
+    def save_village_to_json(self, village: Village):
+        filename = f"./data/village_{village.id}.json"
+        with open(filename, "w") as f:
+            json.dump(village.to_dict(), f, indent=2)
+        print(f"[✓] Village data saved to {filename}")
+
+

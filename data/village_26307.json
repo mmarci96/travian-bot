@@ -57,7 +57,7 @@
         "resource_type": "iron",
         "slot": 7,
         "href": "https://united.x3.balkans.travian.com/build.php?id=7",
-        "level": 5
+        "level": 7
       },
       {
         "resource_type": "iron",
@@ -242,13 +242,7 @@
         "building": null
       }
     ],
-    "constructions": [
-      {
-        "name": "Iron Mine Level 6",
-        "level": 6,
-        "finish_at": "2025-05-31 07:24:00"
-      }
-    ],
+    "constructions": [],
     "building_tasks": [],
     "resource_tasks": []
   },
@@ -256,14 +250,14 @@
     "warehouse": {
       "capacity": 4000,
       "resources": {
-        "wood": 2748,
-        "clay": 3002,
-        "iron": 3642
+        "wood": 4000,
+        "clay": 1838,
+        "iron": 3574
       }
     },
     "granary": {
       "capacity": 4000,
-      "crop": 3317
+      "crop": 4000
     }
   }
 }
