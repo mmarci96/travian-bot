@@ -22,9 +22,8 @@ def main():
 
     bot.setup()
     bot.test_build()
-    sleep(randrange(3,4))
+    sleep(randrange(3, 4))
     bot.update()
-
 
 
 if __name__ == "__main__":

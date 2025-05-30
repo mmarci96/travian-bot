@@ -1,5 +1,5 @@
 {
-  "name": "ZeroOne`s village",
+  "name": "00",
   "id": "25925",
   "href": "/dorf1.php?newdid=25925&",
   "builder": {
@@ -105,7 +105,7 @@
         "resource_type": "crop",
         "slot": 13,
         "href": "https://united.x3.balkans.travian.com/build.php?id=13",
-        "level": 5
+        "level": 6
       },
       {
         "resource_type": "crop",
@@ -250,7 +250,13 @@
         "building": null
       }
     ],
-    "constructions": [],
+    "constructions": [
+      {
+        "name": "Iron Mine Level 6",
+        "level": 6,
+        "finish_at": "2025-05-31 07:21:00"
+      }
+    ],
     "building_tasks": [],
     "resource_tasks": []
   },
@@ -258,14 +264,14 @@
     "warehouse": {
       "capacity": 5000,
       "resources": {
-        "wood": 4426,
-        "clay": 3152,
-        "iron": 4396
+        "wood": 3761,
+        "clay": 4010,
+        "iron": 4666
       }
     },
     "granary": {
       "capacity": 4000,
-      "crop": 4000
+      "crop": 3317
     }
   }
 }

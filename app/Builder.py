@@ -35,6 +35,20 @@ class Builder:
         self.building_tasks = building_tasks
         self.res_tasks = res_tasks
 
+    def do_res_upgrade(self):
+        lowest = None
+        for res in self.resources:
+            if lowest is None or res.get_level() < lowest.get_level():
+                lowest = res
+        if lowest:
+            print("[-] Building lowest resource found: ", lowest)
+            sleep(1)
+            self.browser.goto(lowest.get_href())
+            sleep(randrange(2, 3))
+            command = self.get_build_command()
+            self.browser.goto(self.base_url + command)
+            sleep(randrange(1, 2))
+
     def get_resources(self):
         """
         Returns the list of resource fields managed by the builder.
@@ -164,7 +178,7 @@ class Builder:
                 lowest = res
 
         if lowest:
-            print("[-]Building lowest resource found: ", lowest)
+            print("[-] Building lowest resource found: ", lowest)
             sleep(1)
             self.browser.goto(lowest.get_href())
             sleep(randrange(2, 3))
@@ -173,7 +187,7 @@ class Builder:
             sleep(randrange(1, 2))
         else:
             print(
-                f"[!]No {resource_type} fields below level {target_level} found."
+                f"[!] No {resource_type} fields below level {target_level} found."
             )
 
     def build_on_slot(self, slot_id: str, building_id: str):

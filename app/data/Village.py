@@ -23,6 +23,21 @@ class Village:
         self.__href = f"/dorf1.php?newdid={id}&"
         self.builder = builder
 
+    def get_id(self) -> str:
+        return self.id
+
+    def update_data(self, builder: Builder, storage: Storage):
+        self.builder = builder
+        self.storage = storage
+
+    def build_res_idle(self):
+        constructions = self.builder.get_build_tasks()
+        if len(constructions) == 0:
+            print("[-] No running construction, build lowest resource.")
+            self.do_res_task()
+        else:
+            print("[?] Constructions running: ", constructions)
+
     def do_res_task(self):
         """
         Execute the next resource upgrade task, if available.

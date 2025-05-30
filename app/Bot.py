@@ -12,7 +12,7 @@ from app.data.Building import BuildingSlot
 from app.data.Granary import Granary
 from app.data.ResourceAmount import ResourceAmount
 from app.data.Storage import Storage
-from app.data.Task import BuildingTask, ResourceTask
+from app.data.Task import ResourceTask
 from app.data.Village import Village
 from app.data.Warehouse import Warehouse
 
@@ -51,26 +51,29 @@ class Bot:
         self.browser.goto(self.url + village_href)
 
     def test_build(self):
-        wood_upgrade_task = ResourceTask("crop", 7)
+        wood_upgrade_task = ResourceTask("iron", 7)
         if len(self.villages) == 0:
             print("[!] No village found.")
             return
 
         for village in self.villages:
-            print("[✓]Testing village: ", village)
+            print("[✓] Testing village: ", village)
             village.builder.add_res_task(wood_upgrade_task)
             self.go_to_village(village.get_href())
+            # sleep(randrange(1, 2))
+            # print("[-] Back to home page...")
+            # self.go_home()
             sleep(randrange(1, 2))
             village.do_res_task()
             sleep(randrange(1, 2))
 
-        second_village = self.villages[0]
-        build_cranny_task = BuildingTask("30", "23")
-        sleep(randrange(1, 2))
-        second_village.add_build_task(build_cranny_task)
-        self.go_to_village(second_village.get_href())
-        sleep(1)
-        second_village.do_building_task()
+        # second_village = self.villages[0]
+        # build_cranny_task = BuildingTask("30", "23")
+        # sleep(randrange(1, 2))
+        # second_village.add_build_task(build_cranny_task)
+        # self.go_to_village(second_village.get_href())
+        # sleep(1)
+        # second_village.do_building_task()
 
     def save_village_to_json(self, village: Village):
         filename = f"./data/village_{village.id}.json"
@@ -79,23 +82,33 @@ class Bot:
         print(f"[✓] Village data saved to {filename}")
 
     def setup(self):
-        print("[+]Setup villages...")
+        print("[+] Setup villages...")
         villages = self.browser.get_villages()
         for village in villages:
             village_id, village_name = next(iter(village.items()))
             self.load_village(village_id, village_name)
+        print("[✓] Villages loaded")
 
     def update(self):
-        villages = self.browser.get_villages()
-        for village in villages:
-            village_id, village_name = next(iter(village.items()))
-            self.load_village(village_id, village_name)
-            # sleep(randrange(1, 2))
-            # self.go_to_village(village.__href)
-            # sleep(randrange(1, 3))
-            # village.do_res_task()
-            # sleep(randrange(1, 2))
-            # village.do_building_task()
+        # villages = self.browser.get_villages()
+        print("[✓] Started updating villages.")
+        for village in self.villages:
+            id = village.get_id()
+            sleep(randrange(1, 2))
+            village_href = f"/dorf1.php?newdid={id}&"
+            self.go_to_village(village_href)
+            print("[✓] Navigate to current updating village:", village)
+            sleep(randrange(1, 2))
+            res_fields = self.load_resources()
+            store = self.load_storage()
+            constructions = self.browser.load_constructions()
+            sleep(randrange(1, 2))
+            slots = self.load_slots()
+            builder = Builder(
+                self.browser, self.url, res_fields, slots, constructions
+            )
+            village.update_data(builder, store)
+            village.build_res_idle()
 
     def load_village(self, id: str, name: str):
         """Scans the village by its ID and name populating the data for
@@ -106,9 +119,9 @@ class Bot:
         self.go_to_village(village_href)
         sleep(randrange(1, 2))
         res_fields = self.load_resources()
-        slots = self.load_slots()
         store = self.load_storage()
         constructions = self.browser.load_constructions()
+        slots = self.load_slots()
         sleep(randrange(1, 2))
         builder = Builder(
             self.browser, self.url, res_fields, slots, constructions
@@ -131,6 +144,7 @@ class Bot:
         sleep(randrange(1, 2))
         slots = self.browser.get_building_slots()
         if slots:
+            print("[✓] Loaded Slots from browser.")
             return slots
         return []
 
@@ -145,6 +159,7 @@ class Bot:
         warehouse = Warehouse(res["warehouse_capacity"], warehouse_resources)
         granary = Granary(res["granary_capacity"], crop=res["crop"])
         storage = Storage(warehouse, granary)
+        print("[✓] Loaded Storage from browser.")
         return storage
 
     def load_resources(self) -> List[ResourceField.ResourceField]:
@@ -165,7 +180,7 @@ class Bot:
                 )
                 resource_fields.append(resource)
 
-        print(f"Loaded {len(resource_fields)} total resource fields.")
+        print("[✓] Loaded total resource fields.")
         return resource_fields
 
     def is_logged(self):

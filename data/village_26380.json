@@ -1,5 +1,5 @@
 {
-  "name": "New village",
+  "name": "02",
   "id": "26380",
   "href": "/dorf1.php?newdid=26380&",
   "builder": {
@@ -99,7 +99,7 @@
         "resource_type": "crop",
         "slot": 12,
         "href": "https://united.x3.balkans.travian.com/build.php?id=12",
-        "level": 5
+        "level": 6
       },
       {
         "resource_type": "crop",
@@ -240,9 +240,9 @@
     ],
     "constructions": [
       {
-        "name": "Cropland Level 6",
+        "name": "Iron Mine Level 6",
         "level": 6,
-        "finish_at": "2025-05-31 06:04:00"
+        "finish_at": "2025-05-31 07:28:00"
       }
     ],
     "building_tasks": [],
@@ -252,14 +252,14 @@
     "warehouse": {
       "capacity": 4000,
       "resources": {
-        "wood": 3324,
-        "clay": 2582,
-        "iron": 3321
+        "wood": 2743,
+        "clay": 3003,
+        "iron": 2737
       }
     },
     "granary": {
       "capacity": 4000,
-      "crop": 4000
+      "crop": 3316
     }
   }
 }
