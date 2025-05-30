@@ -20,7 +20,7 @@ def main():
         return
 
     bot.setup()
-    bot.test_build()
+    # bot.test_build()
 
 
 if __name__ == "__main__":
