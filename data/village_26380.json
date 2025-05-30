@@ -6,13 +6,13 @@
       "resource_type": "wood",
       "slot": 4,
       "href": "https://united.x3.balkans.travian.com/build.php?id=4",
-      "level": 5
+      "level": 6
     },
     {
       "resource_type": "wood",
       "slot": 14,
       "href": "https://united.x3.balkans.travian.com/build.php?id=14",
-      "level": 5
+      "level": 6
     },
     {
       "resource_type": "wood",
@@ -72,19 +72,19 @@
       "resource_type": "crop",
       "slot": 2,
       "href": "https://united.x3.balkans.travian.com/build.php?id=2",
-      "level": 5
+      "level": 6
     },
     {
       "resource_type": "crop",
       "slot": 3,
       "href": "https://united.x3.balkans.travian.com/build.php?id=3",
-      "level": 5
+      "level": 6
     },
     {
       "resource_type": "crop",
       "slot": 8,
       "href": "https://united.x3.balkans.travian.com/build.php?id=8",
-      "level": 5
+      "level": 6
     },
     {
       "resource_type": "crop",
@@ -118,7 +118,7 @@
       "building": {
         "id": "10",
         "name": "Warehouse",
-        "level": 2
+        "level": 5
       }
     },
     {
@@ -147,7 +147,7 @@
       "building": {
         "id": "11",
         "name": "Granary",
-        "level": 2
+        "level": 5
       }
     },
     {
@@ -237,28 +237,18 @@
   ],
   "storage": {
     "warehouse": {
-      "capacity": 1700,
+      "capacity": 4000,
       "resources": {
-        "wood": 1700,
-        "clay": 1700,
-        "iron": 1700
+        "wood": 1620,
+        "clay": 659,
+        "iron": 1609
       }
     },
     "granary": {
-      "capacity": 1700,
-      "crop": 1700
+      "capacity": 4000,
+      "crop": 3833
     }
   },
-  "res_tasks": [
-    {
-      "slot_id": "20",
-      "building_id": "17"
-    }
-  ],
-  "build_task": [
-    {
-      "resource_type": "wood",
-      "target_level": 6
-    }
-  ]
+  "res_tasks": [],
+  "build_task": []
 }
