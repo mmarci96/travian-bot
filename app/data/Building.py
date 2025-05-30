@@ -3,7 +3,7 @@ class Building:
     Represents a constructed building with an ID, name, and level.
     """
 
-    def __init__(self, id: str, name: str, level: int):
+    def __init__(self, id: str, name: str, level: int = 0):
         """
         Initialize a Building instance.
 

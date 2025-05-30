@@ -1,21 +1,14 @@
 from dataclasses import dataclass
-from typing import List
+from typing import Optional, List
 
 
+@dataclass
 class Slot:
-    """docstring for Slot."""
-
-    def __init__(self, slot_id: str, building_id: str, building_name):
-        super(Slot, self).__init__()
-        self.slot_id = slot_id
-        self.building_id = building_id
-        self.building_name = building_name
+    slot_id: str
+    building_id: Optional[str] = None
+    building_name: Optional[str] = None
 
 
 @dataclass
 class DefaultLayout:
-    """docstring for DefaultLayout."""
-
-    def __init__(self, slots: List[Slot]):
-        super(DefaultLayout, self).__init__()
-        self.slots = slots
+    slots: List[Slot]

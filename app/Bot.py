@@ -1,4 +1,3 @@
-import json
 from random import randrange
 from typing import List
 
@@ -7,6 +6,7 @@ from time import sleep
 from datetime import datetime
 
 from app.data import ResourceField
+from app.data.DefaultLayout import DefaultLayout
 from app.service.Builder import Builder
 from app.data.Building import BuildingSlot
 from app.data.Granary import Granary
@@ -25,13 +25,19 @@ def get_time():
 
 
 class Bot:
-    def __init__(self, url, username, password):
+    def __init__(self, url: str, username: str, password: str):
         super(Bot, self).__init__()
         self.url = url
         self.username = username
         self.password = password
+        self.json_parser = JsonParser()
         self.browser = Chrome.Chrome(headless=False)
         self.villages: List[Village] = []
+        self.default_layout = DefaultLayout(
+            self.json_parser.get_default_layout(
+                "./data/default_village_layout.json"
+            )
+        )
 
     def login(self):
         self.browser.goto(self.url)
@@ -41,7 +47,6 @@ class Bot:
         self.browser.click("textButtonV2.green")
         sleep(randrange(1, 2))
         print("Logged into the account " + self.username)
-        sleep(5)
 
     def go_home(self):
         self.browser.goto(self.url + "/dorf1.php")
@@ -53,9 +58,6 @@ class Bot:
         self.browser.goto(self.url + village_href)
 
     def setup(self):
-        json_parser = JsonParser()
-        default_layout = json_parser.get_default_layout()
-        print("Layout", default_layout)
         print("[+] Setup villages...")
         villages = self.browser.get_villages()
         for village in villages:
@@ -121,7 +123,7 @@ class Bot:
             store,
         )
         self.villages.append(current_village)
-        self.save_village_to_json(current_village)
+        self.json_parser.save_village_to_json(current_village)
 
     def load_slots(self) -> List[BuildingSlot]:
         """Gets the inner village html and parses Slots and its Building if
@@ -171,11 +173,3 @@ class Bot:
 
     def is_logged(self):
         return self.browser.current_url() != self.url
-
-    def save_village_to_json(self, village: Village):
-        filename = f"./data/village_{village.id}.json"
-        with open(filename, "w") as f:
-            json.dump(village.to_dict(), f, indent=2)
-        print(f"[✓] Village data saved to {filename}")
-
-
