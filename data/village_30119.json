@@ -1,127 +1,127 @@
 {
-  "name": "00",
-  "id": "25925",
-  "href": "/dorf1.php?newdid=25925&",
+  "name": "New village",
+  "id": "30119",
+  "href": "/dorf1.php?newdid=30119&",
   "builder": {
     "base_url": "https://united.x3.balkans.travian.com",
     "resources": [
       {
         "resource_type": "wood",
-        "slot": 1,
-        "href": "https://united.x3.balkans.travian.com/build.php?id=1",
-        "level": 6
-      },
-      {
-        "resource_type": "wood",
         "slot": 3,
         "href": "https://united.x3.balkans.travian.com/build.php?id=3",
-        "level": 6
-      },
-      {
-        "resource_type": "wood",
-        "slot": 14,
-        "href": "https://united.x3.balkans.travian.com/build.php?id=14",
-        "level": 5
-      },
-      {
-        "resource_type": "wood",
-        "slot": 17,
-        "href": "https://united.x3.balkans.travian.com/build.php?id=17",
-        "level": 5
-      },
-      {
-        "resource_type": "clay",
-        "slot": 5,
-        "href": "https://united.x3.balkans.travian.com/build.php?id=5",
-        "level": 6
-      },
-      {
-        "resource_type": "clay",
-        "slot": 6,
-        "href": "https://united.x3.balkans.travian.com/build.php?id=6",
-        "level": 5
+        "level": 4
       },
       {
         "resource_type": "clay",
         "slot": 16,
         "href": "https://united.x3.balkans.travian.com/build.php?id=16",
-        "level": 5
-      },
-      {
-        "resource_type": "clay",
-        "slot": 18,
-        "href": "https://united.x3.balkans.travian.com/build.php?id=18",
-        "level": 5
+        "level": 4
       },
       {
         "resource_type": "iron",
         "slot": 4,
         "href": "https://united.x3.balkans.travian.com/build.php?id=4",
+        "level": 4
+      },
+      {
+        "resource_type": "crop",
+        "slot": 1,
+        "href": "https://united.x3.balkans.travian.com/build.php?id=1",
         "level": 6
-      },
-      {
-        "resource_type": "iron",
-        "slot": 7,
-        "href": "https://united.x3.balkans.travian.com/build.php?id=7",
-        "level": 7
-      },
-      {
-        "resource_type": "iron",
-        "slot": 10,
-        "href": "https://united.x3.balkans.travian.com/build.php?id=10",
-        "level": 5
-      },
-      {
-        "resource_type": "iron",
-        "slot": 11,
-        "href": "https://united.x3.balkans.travian.com/build.php?id=11",
-        "level": 5
       },
       {
         "resource_type": "crop",
         "slot": 2,
         "href": "https://united.x3.balkans.travian.com/build.php?id=2",
-        "level": 6
+        "level": 5
+      },
+      {
+        "resource_type": "crop",
+        "slot": 5,
+        "href": "https://united.x3.balkans.travian.com/build.php?id=5",
+        "level": 5
+      },
+      {
+        "resource_type": "crop",
+        "slot": 6,
+        "href": "https://united.x3.balkans.travian.com/build.php?id=6",
+        "level": 4
+      },
+      {
+        "resource_type": "crop",
+        "slot": 7,
+        "href": "https://united.x3.balkans.travian.com/build.php?id=7",
+        "level": 4
       },
       {
         "resource_type": "crop",
         "slot": 8,
         "href": "https://united.x3.balkans.travian.com/build.php?id=8",
-        "level": 7
+        "level": 4
       },
       {
         "resource_type": "crop",
         "slot": 9,
         "href": "https://united.x3.balkans.travian.com/build.php?id=9",
-        "level": 6
+        "level": 5
+      },
+      {
+        "resource_type": "crop",
+        "slot": 10,
+        "href": "https://united.x3.balkans.travian.com/build.php?id=10",
+        "level": 4
+      },
+      {
+        "resource_type": "crop",
+        "slot": 11,
+        "href": "https://united.x3.balkans.travian.com/build.php?id=11",
+        "level": 4
       },
       {
         "resource_type": "crop",
         "slot": 12,
         "href": "https://united.x3.balkans.travian.com/build.php?id=12",
-        "level": 6
+        "level": 4
       },
       {
         "resource_type": "crop",
         "slot": 13,
         "href": "https://united.x3.balkans.travian.com/build.php?id=13",
-        "level": 6
+        "level": 4
+      },
+      {
+        "resource_type": "crop",
+        "slot": 14,
+        "href": "https://united.x3.balkans.travian.com/build.php?id=14",
+        "level": 4
       },
       {
         "resource_type": "crop",
         "slot": 15,
         "href": "https://united.x3.balkans.travian.com/build.php?id=15",
-        "level": 5
+        "level": 4
+      },
+      {
+        "resource_type": "crop",
+        "slot": 17,
+        "href": "https://united.x3.balkans.travian.com/build.php?id=17",
+        "level": 4
+      },
+      {
+        "resource_type": "crop",
+        "slot": 18,
+        "href": "https://united.x3.balkans.travian.com/build.php?id=18",
+        "level": 4
       }
     ],
     "slots": [
       {
         "slot_id": "19",
-        "href": "https://united.x3.balkans.travian.com/build.php?id=19&gid=10",
+        "href": "https://united.x3.balkans.travian.com/build.php?id=19&gid=11",
         "building": {
-          "id": "10",
-          "name": "Warehouse",
-          "level": 6
+          "id": "11",
+          "name": "Granary",
+          "level": 8
         }
       },
       {
@@ -141,16 +141,20 @@
       },
       {
         "slot_id": "23",
-        "href": "https://united.x3.balkans.travian.com/build.php?id=23",
-        "building": null
+        "href": "https://united.x3.balkans.travian.com/build.php?id=23&gid=8",
+        "building": {
+          "id": "8",
+          "name": "Grain Mill",
+          "level": 1
+        }
       },
       {
         "slot_id": "24",
-        "href": "https://united.x3.balkans.travian.com/build.php?id=24&gid=11",
+        "href": "https://united.x3.balkans.travian.com/build.php?id=24&gid=10",
         "building": {
-          "id": "11",
-          "name": "Granary",
-          "level": 5
+          "id": "10",
+          "name": "Warehouse",
+          "level": 7
         }
       },
       {
@@ -164,31 +168,27 @@
         "building": {
           "id": "15",
           "name": "Main Building",
-          "level": 6
+          "level": 5
         }
       },
       {
         "slot_id": "27",
-        "href": "https://united.x3.balkans.travian.com/build.php?id=27",
-        "building": null
+        "href": "https://united.x3.balkans.travian.com/build.php?id=27&gid=17",
+        "building": {
+          "id": "17",
+          "name": "Marketplace",
+          "level": 2
+        }
       },
       {
         "slot_id": "28",
-        "href": "https://united.x3.balkans.travian.com/build.php?id=28&gid=18",
-        "building": {
-          "id": "18",
-          "name": "Embassy",
-          "level": 3
-        }
+        "href": "https://united.x3.balkans.travian.com/build.php?id=28",
+        "building": null
       },
       {
         "slot_id": "29",
-        "href": "https://united.x3.balkans.travian.com/build.php?id=29&gid=23",
-        "building": {
-          "id": "23",
-          "name": "Cranny",
-          "level": 1
-        }
+        "href": "https://united.x3.balkans.travian.com/build.php?id=29",
+        "building": null
       },
       {
         "slot_id": "30",
@@ -250,22 +250,33 @@
         "building": null
       }
     ],
-    "constructions": [],
+    "constructions": [
+      {
+        "name": "Grain Mill Level 2",
+        "level": 2,
+        "finish_at": "2025-05-31 09:17:00"
+      },
+      {
+        "name": "Cropland Level 5",
+        "level": 5,
+        "finish_at": "2025-05-31 09:30:00"
+      }
+    ],
     "building_tasks": [],
     "resource_tasks": []
   },
   "storage": {
     "warehouse": {
-      "capacity": 5000,
+      "capacity": 6300,
       "resources": {
-        "wood": 4423,
-        "clay": 2946,
-        "iron": 4467
+        "wood": 2572,
+        "clay": 2237,
+        "iron": 2962
       }
     },
     "granary": {
-      "capacity": 4000,
-      "crop": 3678
+      "capacity": 7800,
+      "crop": 2146
     }
   }
 }

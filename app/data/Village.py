@@ -1,4 +1,4 @@
-from app.Builder import Builder
+from app.service.Builder import Builder
 from app.data.Storage import Storage
 from app.data.Task import BuildingTask, ResourceTask
 

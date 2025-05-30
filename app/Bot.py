@@ -7,7 +7,7 @@ from time import sleep
 from datetime import datetime
 
 from app.data import ResourceField
-from app.Builder import Builder
+from app.service.Builder import Builder
 from app.data.Building import BuildingSlot
 from app.data.Granary import Granary
 from app.data.ResourceAmount import ResourceAmount
@@ -40,6 +40,7 @@ class Bot:
         self.browser.click("textButtonV2.green")
         sleep(randrange(1, 2))
         print("Logged into the account " + self.username)
+        sleep(5)
 
     def go_home(self):
         self.browser.goto(self.url + "/dorf1.php")
@@ -79,7 +80,7 @@ class Bot:
             village.build_res_idle()
 
     def test_build(self):
-        upgrade_task = ResourceTask("wood", 7)
+        upgrade_task = ResourceTask("crop", 7)
         if len(self.villages) == 0:
             print("[!] No village found.")
             return

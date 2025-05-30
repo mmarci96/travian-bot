@@ -33,7 +33,7 @@
         "resource_type": "clay",
         "slot": 5,
         "href": "https://united.x3.balkans.travian.com/build.php?id=5",
-        "level": 5
+        "level": 6
       },
       {
         "resource_type": "clay",
@@ -164,7 +164,7 @@
         "building": {
           "id": "15",
           "name": "Main Building",
-          "level": 3
+          "level": 4
         }
       },
       {
@@ -250,9 +250,9 @@
     "warehouse": {
       "capacity": 4000,
       "resources": {
-        "wood": 4000,
-        "clay": 1838,
-        "iron": 3574
+        "wood": 3361,
+        "clay": 1782,
+        "iron": 2914
       }
     },
     "granary": {

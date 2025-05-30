@@ -1,0 +1,130 @@
+{
+    "slots": [
+        {
+            "slot_id": "19",
+            "building": {
+                "id": "10",
+                "name": "Warehouse"
+            }
+        },
+        {
+            "slot_id": "20",
+            "building": {
+                "id": "20",
+                "name": "Stable"
+            }
+        },
+        {
+            "slot_id": "21",
+            "building": null
+        },
+        {
+            "slot_id": "22",
+            "building": { "id": "21", "name": "Workshop" }
+        },
+        {
+            "slot_id": "23",
+            "building": {
+                "id": "8",
+                "name": "Grain Mill"
+            }
+        },
+        {
+            "slot_id": "24",
+            "building": {
+                "id": "11",
+                "name": "Granary"
+            }
+        },
+        {
+            "slot_id": "25",
+            "building": { "id": "9", "name": "Bakery" }
+        },
+        {
+            "slot_id": "26",
+            "building": {
+                "id": "15",
+                "name": "Main Building"
+            }
+        },
+        {
+            "slot_id": "27",
+            "building": {
+                "id": "17",
+                "name": "Marketplace"
+            }
+        },
+        {
+            "slot_id": "28",
+            "building": {
+                "id": "23",
+                "name": "Cranny"
+            }
+        },
+        {
+            "slot_id": "29",
+            "building": {
+                "id": "13",
+                "name": "Smithy"
+            }
+        },
+        {
+            "slot_id": "30",
+            "building": {
+                "id": "18",
+                "name": "Embassy"
+            }
+        },
+        {
+            "slot_id": "31",
+            "building": {
+                "id": "19",
+                "name": "Barracks"
+            }
+        },
+        {
+            "slot_id": "32",
+            "building": {
+                "id": "22",
+                "name": "Academy"
+            }
+        },
+        {
+            "slot_id": "33",
+            "building": { "id": "36", "name": "Trapper" }
+        },
+        {
+            "slot_id": "34",
+            "building": {
+                "id": "24",
+                "name": "Town Hall"
+            }
+        },
+        {
+            "slot_id": "35",
+            "building": {
+                "id": "25",
+                "name": "Residence"
+            }
+        },
+        {
+            "slot_id": "36",
+            "building": { "id": "7", "name": "Iron Foundry" }
+        },
+        {
+            "slot_id": "37",
+            "building": { "id": "5", "name": "Sawmill" }
+        },
+        {
+            "slot_id": "38",
+            "building": { "id": "6", "name": "Brickyard" }
+        },
+        {
+            "slot_id": "39",
+            "building": {
+                "id": "16",
+                "name": "Rally Point"
+            }
+        }
+    ]
+}
