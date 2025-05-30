@@ -21,9 +21,9 @@ def main():
         return
 
     bot.setup()
-    bot.test_build()
+    # bot.test_build()
     sleep(randrange(3, 4))
-    bot.update()
+    # bot.update()
 
 
 if __name__ == "__main__":

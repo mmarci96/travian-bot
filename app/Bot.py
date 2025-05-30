@@ -15,6 +15,7 @@ from app.data.Storage import Storage
 from app.data.Task import ResourceTask
 from app.data.Village import Village
 from app.data.Warehouse import Warehouse
+from app.service.JsonParser import JsonParser
 
 
 def get_time():
@@ -52,6 +53,9 @@ class Bot:
         self.browser.goto(self.url + village_href)
 
     def setup(self):
+        json_parser = JsonParser()
+        default_layout = json_parser.get_default_layout()
+        print("Layout", default_layout)
         print("[+] Setup villages...")
         villages = self.browser.get_villages()
         for village in villages:
