@@ -4,7 +4,10 @@ from app.data.Task import BuildingTask, ResourceTask
 
 
 class Village:
-    """Village class can upgrade resources and build infrastructure."""
+    """
+    Represents a village capable of managing construction and resource upgrades
+    via its Builder. Encapsulates storage, task management, and related metadata.
+    """
 
     def __init__(
         self,
@@ -21,6 +24,10 @@ class Village:
         self.builder = builder
 
     def do_res_task(self):
+        """
+        Execute the next resource upgrade task, if available.
+        Removes the task after completion.
+        """
         res_tasks = self.builder.get_res_tasks()
         if len(res_tasks) > 0:
             task = res_tasks[0]
@@ -33,6 +40,10 @@ class Village:
         print("[✓] All resource upgrade tasks are finished!")
 
     def do_building_task(self):
+        """
+        Execute the next infrastructure building task, if available.
+        Leaves task in queue for retry if construction fails.
+        """
         building_tasks = self.builder.get_build_tasks()
         if len(building_tasks) > 0:
             task = building_tasks[0]
@@ -42,29 +53,45 @@ class Village:
         print("[✓] All building tasks are finished!")
 
     def add_build_task(self, build_task: BuildingTask):
+        """
+        Add a new building task to the queue.
+
+        Args:
+            build_task (BuildingTask): The building task to add.
+        """
         self.builder.add_build_task(build_task)
 
     def add_res_task(self, resouce_task: ResourceTask):
+        """
+        Add a new resource task to the queue.
+
+        Args:
+            resouce_task (ResourceTask): The resource task to add.
+        """
         self.builder.add_res_task(resouce_task)
 
     def get_href(self):
+        """
+        Get the internal link for this village.
+
+        Returns:
+            str: Href string used for navigation.
+        """
         return self.__href
 
     def to_dict(self):
+        """
+        Serialize the Village and its components to a dictionary.
+
+        Returns:
+            dict: Dictionary representation of the village state.
+        """
         return {
             "name": self.name,
-            "href": self.id,
-            "resource_fields": [
-                rf.to_dict() for rf in self.builder.get_resources()
-            ],
-            "slots": [
-                slot.to_dict() for slot in self.builder.get_build_slots()
-            ],
+            "id": self.id,
+            "href": self.__href,
+            "builder": self.builder.to_dict(),
             "storage": self.storage.to_dict(),
-            "res_tasks": [
-                rt.to_dict() for rt in self.builder.get_build_tasks()
-            ],
-            "build_task": [bt.to_dict() for bt in self.builder.get_res_tasks()],
         }
 
     def __repr__(self):

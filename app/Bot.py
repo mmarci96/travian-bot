@@ -53,7 +53,7 @@ class Bot:
     def test_build(self):
         wood_upgrade_task = ResourceTask("crop", 7)
         if len(self.villages) == 0:
-            print("No village")
+            print("[!] No village found.")
             return
 
         for village in self.villages:
@@ -86,13 +86,16 @@ class Bot:
             self.load_village(village_id, village_name)
 
     def update(self):
-        for village in self.villages:
-            sleep(randrange(1, 2))
-            self.go_to_village(village.__href)
-            sleep(randrange(1, 3))
-            village.do_res_task()
-            sleep(randrange(1, 2))
-            village.do_building_task()
+        villages = self.browser.get_villages()
+        for village in villages:
+            village_id, village_name = next(iter(village.items()))
+            self.load_village(village_id, village_name)
+            # sleep(randrange(1, 2))
+            # self.go_to_village(village.__href)
+            # sleep(randrange(1, 3))
+            # village.do_res_task()
+            # sleep(randrange(1, 2))
+            # village.do_building_task()
 
     def load_village(self, id: str, name: str):
         """Scans the village by its ID and name populating the data for
@@ -107,7 +110,9 @@ class Bot:
         store = self.load_storage()
         constructions = self.browser.load_constructions()
         sleep(randrange(1, 2))
-        builder = Builder(self.browser, self.url, res_fields, slots, constructions)
+        builder = Builder(
+            self.browser, self.url, res_fields, slots, constructions
+        )
 
         current_village = Village(
             name,

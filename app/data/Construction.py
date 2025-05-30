@@ -24,6 +24,14 @@ class Construction:
     def duration(self):
         return datetime.now() - self.finish_at
 
+    def to_dict(self):
+        date_str = self.finish_at.strftime("%Y-%m-%d %H:%M:%S")
+        return {
+            "name": self.name,
+            "level": self.level,
+            "finish_at": self.finish_at.strftime(date_str)
+        }
+
     def __repr__(self):
         date_str = self.finish_at.strftime("%Y-%m-%d %H:%M:%S")
         return f"<Construction (Name: {self.name}) | Level: {self.level} | Finish at: {date_str}>"

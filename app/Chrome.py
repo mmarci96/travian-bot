@@ -52,16 +52,13 @@ class Chrome:
     def get_build_command_by_id(self, building_id: str) -> Optional[str]:
         command = "/dorf2.php"
         try:
-            container = self.browser.find_element(
-                By.ID, "contract_building" + building_id
-            )
-            button = container.find_element(
-                By.CLASS_NAME, "textButtonV1.green.new"
-            )
+            id = "contract_building" + building_id
+            container = self.browser.find_element(By.ID, id)
+            btn_class = "textButtonV1.green.new"
+            button = container.find_element(By.CLASS_NAME, btn_class)
 
             onclick_value = button.get_attribute("onclick")
             if onclick_value:
-                print("Onclick val fiund: ", onclick_value)
                 match = re.search(r"'(.*?)'", onclick_value)
                 if match:
                     command = match.group(1)
@@ -74,18 +71,15 @@ class Chrome:
             print(f"[!] {msg}:{building_id}")
 
     def load_constructions(self) -> List[Construction]:
-        building_list:List[Construction] = []
+        building_list: List[Construction] = []
         try:
-            building_list_contianer = self.browser.find_element(
-                By.CLASS_NAME, "buildingList"
-            )
-            li_elements = building_list_contianer.find_elements(
-                By.TAG_NAME, "li"
-            )
+            list_cls = "buildingList"
+            list_contianer = self.browser.find_element(By.CLASS_NAME, list_cls)
+            li_elements = list_contianer.find_elements(By.TAG_NAME, "li")
+
             for li_elem in li_elements:
-                timer_element = li_elem.find_element(
-                    By.CLASS_NAME, "buildDuration"
-                )
+                t_cls = "buildDuration"
+                timer_element = li_elem.find_element(By.CLASS_NAME, t_cls)
                 time_str = timer_element.text
                 done_at_match = re.search(r"done at (\d{2}:\d{2})", time_str)
                 if not done_at_match:
@@ -101,7 +95,6 @@ class Chrome:
 
                 name_element = li_elem.find_element(By.CLASS_NAME, "name")
                 name = name_element.text
-
                 lvl_elem = name_element.find_element(By.CLASS_NAME, "lvl")
                 level = lvl_elem.text
                 lvl = int(level[6:])
@@ -110,6 +103,7 @@ class Chrome:
                     c = Construction(name, lvl, finish_time_today)
                     print("[-] Construction", c)
                     building_list.append(c)
+
         except Exception:
             print("[!] Failed to find element with class buildingList")
         return building_list
@@ -117,14 +111,14 @@ class Chrome:
     def get_villages(self) -> List[Dict[str, str]]:
         villages = []
         try:
-            list_container = self.browser.find_element(
-                By.ID, "sidebarBoxVillageList"
-            )
-            village_containers = list_container.find_elements(
-                By.CLASS_NAME, "dropContainer"
-            )
+            id = "sidebarBoxVillageList"
+            list_elem = self.browser.find_element(By.ID, id)
+            v_cls = "dropContainer"
+            village_containers = list_elem.find_elements(By.CLASS_NAME, v_cls)
+
             for village_container in village_containers:
                 village = village_container.get_attribute("data-sortid")
+
                 if village:
                     village_id = village[7:]
                     name_elem = village_container.find_element(
@@ -134,6 +128,7 @@ class Chrome:
                     name = name_elem.text
                     village_obj = {village_id: name}
                     villages.append(village_obj)
+
         except Exception:
             print("[!] Failed to get village ids")
         return villages
