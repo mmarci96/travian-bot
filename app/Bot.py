@@ -1,5 +1,5 @@
 from random import randrange
-from typing import List
+from typing import List, Optional
 
 from app import Chrome
 from time import sleep
@@ -38,6 +38,7 @@ class Bot:
                 "./data/default_village_layout.json"
             )
         )
+        self.military_village: Optional[Village] = None
 
     def login(self):
         self.browser.goto(self.url)
@@ -122,6 +123,8 @@ class Bot:
             builder,
             store,
         )
+        if name == "02":
+            self.military_village = current_village
         self.villages.append(current_village)
         self.json_parser.save_village_to_json(current_village)
 
@@ -170,6 +173,27 @@ class Bot:
 
         print("[✓] Loaded total resource fields.")
         return resource_fields
+
+    def go_farmlist(self):
+        self.browser.goto(self.url + "/build.php?id=39&gid=16&tt=99")
+        sleep(randrange(3, 5))
+
+    def send_list(self, list):
+        if self.military_village:
+            self.browser.goto(self.url + self.military_village.get_href())
+            sleep(randrange(1, 2))
+        self.browser.goto(self.url + "/build.php?id=39&gid=16&tt=99")
+        sleep(randrange(3, 5))
+        buttons = self.browser.get_by_classname(
+            "textButtonV2.green.startButton"
+        )
+        for i in range(len(list)):
+            index = int(list[i])
+            buttons[index].click()
+            print("List #" + str(index) + " were sent")
+            sleep(randrange(3, 5))
+
+        print(get_time() + ": Lists were sent")
 
     def is_logged(self):
         return self.browser.current_url() != self.url

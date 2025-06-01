@@ -43,6 +43,9 @@ class Chrome:
         except Exception:
             print(f"[!] Failed to click element with class '{class_name}'")
 
+    def get_by_classname(self, classname: str):
+        return self.browser.find_elements(By.CLASS_NAME, value=classname)
+
     def get_buttons(self):
         return self.browser.find_elements(by=By.TAG_NAME, value="button")
 

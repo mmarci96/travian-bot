@@ -85,7 +85,7 @@ class Village:
         """
         self.builder.add_res_task(resouce_task)
 
-    def get_href(self):
+    def get_href(self) -> str:
         """
         Get the internal link for this village.
 
