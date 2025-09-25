@@ -1,37 +1,34 @@
-# --- Base image ---
-FROM python:3.13-slim
-
-# --- Environment variables ---
-ENV PYTHONUNBUFFERED=1
-ENV DEBIAN_FRONTEND=noninteractive
+# Use official Python 3.12 slim image
+FROM python:3.12-slim
 
 # --- Install system dependencies ---
 RUN apt-get update && apt-get install -y \
+    chromium \
     wget \
-    unzip \
     curl \
+    unzip \
     gnupg \
     ca-certificates \
-    chromium \
-    chromium-driver \
     && rm -rf /var/lib/apt/lists/*
 
-# Set Chrome as default for Selenium
+# Set environment variables for headless Chrome
 ENV CHROME_BIN=/usr/bin/chromium
-ENV CHROME_DRIVER=/usr/bin/chromedriver
+ENV CHROME_PATH=/usr/bin/chromium
 
-# --- Set working directory ---
+# Set working directory
 WORKDIR /app
 
-# --- Copy project files ---
-COPY . /app
-
-# --- Install Python dependencies ---
-RUN pip install --upgrade pip
+# Copy requirements and install Python packages
+COPY requirements.txt .
+RUN pip install --upgrade pip setuptools wheel
 RUN pip install -r requirements.txt
 
-# --- Expose port ---
+# Copy bot source code
+COPY . .
+
+# Expose API port
 EXPOSE 8000
 
-# --- Run FastAPI server ---
+# Command to run FastAPI
 CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
+
