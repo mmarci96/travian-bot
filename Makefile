@@ -7,6 +7,12 @@ SERVER=http://127.0.0.1:8000
 run:
 	uvicorn server:app --host 0.0.0.0 --port 8000
 
+build:
+	podman build -t travian-bot .
+
+start:
+	podman run -p 8000:8000 -v $(pwd)/data:/app/data travian-bot
+
 # --- Commands ---
 login:
 	curl -X POST "$(SERVER)/login" \
