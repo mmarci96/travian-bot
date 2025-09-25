@@ -3,6 +3,7 @@ from typing import List
 
 from app.data.DefaultLayout import Slot
 from app.data.Village import Village
+from app.Logger import msg
 
 
 class JsonParser:
@@ -36,4 +37,4 @@ class JsonParser:
         filename = f"./data/village_{village.id}.json"
         with open(filename, "w") as f:
             json.dump(village.to_dict(), f, indent=2)
-        print(f"[✓] Village data saved to {filename}")
+        msg(f"[✓] Village data saved to {filename}")

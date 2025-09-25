@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from app.data.Building import Building, BuildingSlot
 from app.data.Construction import Construction
-from server import msg
+from app.Logger import msg
 
 
 class Chrome:

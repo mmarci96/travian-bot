@@ -1,7 +1,7 @@
 from app.service.Builder import Builder
 from app.data.Storage import Storage
 from app.data.Task import BuildingTask, ResourceTask
-from server import msg
+from app.Logger import msg
 
 
 class Village:

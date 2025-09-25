@@ -1,7 +1,7 @@
 import time
 from threading import Thread
 from app.service.BotService import bot_service
-from server import LogType, msg
+from app.Logger import LogType, msg
 
 
 def loop_check_queue():

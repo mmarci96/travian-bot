@@ -16,7 +16,7 @@ from app.data.Task import ResourceTask
 from app.data.Village import Village
 from app.data.Warehouse import Warehouse
 from app.service.JsonParser import JsonParser
-from server import msg
+from app.Logger import msg
 
 
 def get_time():
@@ -115,7 +115,7 @@ class Bot:
             sleep(randrange(1, 2))
             village_href = f"/dorf1.php?newdid={id}&"
             self.go_to_village(village_href)
-            msg("[✓] Navigate to current updating village:", village)
+            msg(f"[✓] Navigate to current updating village:{village}")
             sleep(randrange(1, 2))
             res_fields = self.load_resources()
             store = self.load_storage()
@@ -139,7 +139,7 @@ class Bot:
         if target_village is None:
             return "village not found"
 
-        msg("[✓] Adding task to village: ", target_village)
+        msg(f"[✓] Adding task to village: {target_village}")
         village.builder.add_res_task(upgrade_task)
         self.go_to_village(target_village.get_href())
         sleep(randrange(1, 2))
@@ -153,7 +153,7 @@ class Bot:
             return
 
         for village in self.villages:
-            msg("[✓] Testing village: ", village)
+            msg(f"[✓] Testing village: {village}")
             village.builder.add_res_task(upgrade_task)
             self.go_to_village(village.get_href())
             sleep(randrange(1, 2))
