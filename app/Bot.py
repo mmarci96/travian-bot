@@ -41,6 +41,17 @@ class Bot:
         self.military_village: Optional[Village] = None
         self.status = "init"
 
+    def get_build_queue(self):
+        build_queue = []
+        for village in self.villages:
+            builder = village.builder
+            print(f"village:{village.get_name()} - {village.get_id()}")
+            print(builder.get_build_tasks())
+            print(builder.get_res_tasks())
+            print(builder.get_resources())
+
+        return build_queue
+
     def login(self):
         self.browser.goto(self.url)
         sleep(randrange(1, 2))

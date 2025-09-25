@@ -2,11 +2,11 @@ from time import sleep
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Optional
-from threading import Lock
+from threading import Lock, Thread
+from contextlib import asynccontextmanager
+import time
 
 from app.Bot import Bot
-
-app = FastAPI()
 
 # Singleton bot and lock
 bot: Optional[Bot] = None
@@ -35,6 +35,33 @@ class FarmListRequest(BaseModel):
     list: List[int]
 
 
+def loop_check_queue():
+    """Background thread to check build queue every 10 sec"""
+    global bot
+    while True:
+        with bot_lock:
+            if bot:
+                try:
+                    bot.get_build_queue()
+                except Exception as e:
+                    print(f"[!] Error in build queue loop: {e}")
+        time.sleep(10)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    t = Thread(target=loop_check_queue, daemon=True)
+    t.start()
+    print("[✓] Background build queue thread started.")
+    yield
+    # Shutdown
+    print("[✗] Shutting down...")
+
+
+app = FastAPI(lifespan=lifespan)
+
+
 @app.get("/status")
 def status():
     with bot_lock:
@@ -47,7 +74,7 @@ def status():
 
 @app.post("/login")
 def login(data: LoginRequest):
-    print("[✓] Login request recieved.")
+    print("[✓] Login request received.")
     global bot
     with bot_lock:
         if bot:
