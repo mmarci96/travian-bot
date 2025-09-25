@@ -53,7 +53,7 @@ async def lifespan(app: FastAPI):
     # Startup
     t = Thread(target=loop_check_queue, daemon=True)
     t.start()
-    print("[✓] Background build queue thread started.")
+    print("[✓] Background build queue thread started.", app.title)
     yield
     # Shutdown
     print("[✗] Shutting down...")
