@@ -1,15 +1,16 @@
 import time
 from threading import Thread
 from app.service.BotService import bot_service
-from server import msg
+from server import LogType, msg
 
 
 def loop_check_queue():
     while True:
         try:
             bot_service.get_build_queue()
+            bot_service.refresh_builds()
         except Exception as e:
-            msg(f"[!] Error in build queue loop: {e}")
+            msg(f"[!] Error in build queue loop: {e}", log_type=LogType.ERROR)
         time.sleep(10)
 
 

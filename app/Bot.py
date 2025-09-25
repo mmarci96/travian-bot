@@ -47,11 +47,36 @@ class Bot:
         for village in self.villages:
             builder = village.builder
             msg(f"village:{village.get_name()} - {village.get_id()}")
-            msg(builder.get_build_tasks())
-            msg(builder.get_res_tasks())
-            msg(builder.get_resources())
+            msg(f"build tasks:{builder.get_build_tasks()}")
+            msg(f"res tasks: {builder.get_res_tasks()}")
+            # msg(builder.get_resources())
 
         return build_queue
+
+    def refresh_builds(self):
+        msg("[-] refreshing builds")
+        running_constructions = {}
+        for village in self.villages:
+            builder = village.builder
+            builds = builder.get_build_tasks()
+            res = builder.get_res_tasks()
+            res_tasks = {}
+            build_tasks = {}
+            for r in res:
+                res_tasks[r.resouce_type] = r.target_level
+            for b in builds:
+                existing = build_tasks.get(b.building_id)
+                if existing:
+                    build_tasks[b.building_id] = existing + 1
+                else:
+                    build_tasks[b.building_id] = 1
+            msg(f"[+] res tasks: {res_tasks}")
+            msg(f"[+] build tasks: {build_tasks}")
+            running_constructions[village.get_id()] = {
+                "res_tasks": res_tasks,
+                "build_tasks": build_tasks,
+            }
+        msg(f"[+]{running_constructions}")
 
     def login(self):
         self.browser.goto(self.url)
