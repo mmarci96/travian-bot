@@ -16,7 +16,7 @@ class JsonParser:
             data = json.load(file)
 
         slots_data = data.get("slots", [])
-        print("Slots data: ", slots_data)
+        # print("Slots data: ", json.dumps(slots_data, indent=4))
         slots = []
         for slot_data in slots_data:
             slot_id = slot_data["slot_id"]
