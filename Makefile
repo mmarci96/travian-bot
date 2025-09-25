@@ -11,7 +11,7 @@ build:
 	podman build -t travian-bot .
 
 start:
-	podman run -p 8000:8000 -v $(pwd)/data:/app/data travian-bot
+	podman run -p 8000:8000 travian-bot
 
 # --- Commands ---
 login:
