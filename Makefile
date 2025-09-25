@@ -1,8 +1,10 @@
 # --- Configuration ---
-URL=https://rof.x3.europe.travian.com
-USERNAME=sarosdimarci@gmail.com
-PASSWORD=edsmail2
+URL:=game_server_url
+USERNAME:=username
+PASSWORD:=username
 SERVER=http://127.0.0.1:8000
+
+include .env
 
 run:
 	uvicorn server:app --host 0.0.0.0 --port 8000
@@ -12,6 +14,14 @@ build:
 
 start:
 	podman run -p 8000:8000 travian-bot
+
+
+start-server:
+	sudo podman run -d \
+		--name travian-bot \
+		--net=host \
+		-v $(shell pwd)/data:/app/data \
+		travian-bot
 
 # --- Commands ---
 login:
