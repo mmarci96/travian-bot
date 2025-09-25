@@ -8,8 +8,9 @@ def loop_check_queue():
     while True:
         try:
             bot_service.update()
-            bot_service.get_build_queue()
-            bot_service.refresh_builds()
+            constructions = bot_service.get_constructions()
+            msg(f"constructions: {constructions}")
+            bot_service.refresh_builds(constructions)
         except Exception as e:
             msg(f"[!] Error in build queue loop: {e}", log_type=LogType.ERROR)
         time.sleep(10)

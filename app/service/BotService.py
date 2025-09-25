@@ -1,5 +1,5 @@
 from threading import Lock
-from typing import Optional
+from typing import Dict, Optional
 from app.Bot import Bot
 
 
@@ -22,10 +22,10 @@ class BotService:
                 self.bot = None
                 return {"status": "error", "message": "Login failed"}
 
-    def refresh_builds(self):
+    def refresh_builds(self, constructions: Dict):
         with self.lock:
             if self.bot:
-                return self.bot.refresh_builds()
+                return self.bot.refresh_builds(constructions)
 
     def get_status(self) -> dict:
         with self.lock:
@@ -67,16 +67,16 @@ class BotService:
                 village_id, resource_type, target_level
             )
 
-    def get_constructions(self, village_id: str):
-        with self.lock:
-            if not self.bot:
-                raise RuntimeError("Bot not initialized")
-            return self.bot.get_constructions_by_village_id(village_id)
-
-    def get_build_queue(self):
+    # def get_constructions(self) -> Dict:
+    #     with self.lock:
+    #         if not self.bot:
+    #             raise RuntimeError("Bot not initialized")
+    #         return self.bot.get_constructions_by_village_id()
+    #
+    def get_constructions(self):
         with self.lock:
             if self.bot:
-                return self.bot.get_build_queue()
+                return self.bot.get_constructions()
         return None
 
 

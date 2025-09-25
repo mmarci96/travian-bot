@@ -67,8 +67,8 @@ class Bot:
 
         msg(f"[-] default_layout: {self.default_layout.slots}")
 
-    def refresh_builds(self) -> Dict:
-        msg("[-] refreshing builds")
+    def refresh_builds(self, constructions: Dict) -> Dict:
+        msg(f"[-] refreshing builds ... constructions: {constructions}")
         running_constructions = {}
         for village in self.villages:
             builder = village.builder
@@ -91,18 +91,18 @@ class Bot:
                 "build_tasks": build_tasks,
             }
 
-        msg(f"[+]{running_constructions}")
+        msg(f"[+] {running_constructions}")
         return running_constructions
 
     def login(self):
-        msg(f"Logging into game at url: {self.url}")
+        msg(f"[+] logging into game at url: {self.url}")
         self.browser.goto(self.url)
         sleep(randrange(1, 2))
         self.browser.post({"name": self.username, "password": self.password})
         sleep(randrange(1, 2))
         self.browser.click("textButtonV2.green")
         sleep(randrange(1, 2))
-        msg("Logged into the account " + self.username)
+        msg("[+] logged into the account " + self.username)
         self.status = "idle"
 
     def get_status(self):
@@ -278,6 +278,17 @@ class Bot:
             data[village.get_id()] = village.get_name()
         msg(f"[+] Villages: {data}")
         return {"villages": data}
+
+    def get_constructions(self) -> Dict:
+        constructions_villages = {}
+        for village in self.villages:
+            constructions = village.get_constructions()
+            cd = {}
+            for c in constructions:
+                name = c.name.split(" ")[0] + str(c.level)
+                cd[name] = c.duration()
+            constructions_villages[village.get_id()] = {"constructions": cd}
+        return constructions_villages
 
     def get_constructions_by_village_id(self, village_id: str):
         village = None

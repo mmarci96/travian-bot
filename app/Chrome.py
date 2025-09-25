@@ -72,8 +72,10 @@ class Chrome:
                     msg(f"[!] ID: {building_id} | No URL found in onclick.")
             return command
         except Exception:
-            msg = "Warning, not found element err, no valid command for buildID"
-            msg(f"[!] {msg}:{building_id}")
+            err_msg = (
+                "Warning, not found element err, no valid command for buildID"
+            )
+            msg(f"[!] {err_msg}:{building_id}")
 
     def load_constructions(self) -> List[Construction]:
         building_list: List[Construction] = []
@@ -108,7 +110,7 @@ class Chrome:
 
                 if name and level:
                     c = Construction(name, lvl, finish_time_today)
-                    msg("[-] Construction", c)
+                    msg(f"[-] Construction{c}")
                     building_list.append(c)
 
         except Exception:
@@ -205,7 +207,7 @@ class Chrome:
                         try:
                             level = int(cls[5:])  # Get number after 'level'
                         except ValueError:
-                            msg("Not right value: ", cls[5:])
+                            msg(f"Not right value: {cls[5:]}")
                             pass
                         break
 
@@ -214,7 +216,7 @@ class Chrome:
                         try:
                             slot = int(cls[12:])
                         except ValueError:
-                            msg("Not right type: ", cls[12:])
+                            msg(f"Not right type: {cls[12:]}")
                             pass
                         break
 
