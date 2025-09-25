@@ -11,6 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from app.data.Building import Building, BuildingSlot
 from app.data.Construction import Construction
+from server import msg
 
 
 class Chrome:
@@ -42,7 +43,7 @@ class Chrome:
             )
             button.click()
         except Exception:
-            print(f"[!] Failed to click element with class '{class_name}'")
+            msg(f"[!] Failed to click element with class '{class_name}'")
 
     def get_by_classname(self, classname: str):
         return self.browser.find_elements(By.CLASS_NAME, value=classname)
@@ -66,13 +67,13 @@ class Chrome:
                 match = re.search(r"'(.*?)'", onclick_value)
                 if match:
                     command = match.group(1)
-                    print(f"[✓] ID: {building_id} | Parsed URL: {command}")
+                    msg(f"[✓] ID: {building_id} | Parsed URL: {command}")
                 else:
-                    print(f"[!] ID: {building_id} | No URL found in onclick.")
+                    msg(f"[!] ID: {building_id} | No URL found in onclick.")
             return command
         except Exception:
             msg = "Warning, not found element err, no valid command for buildID"
-            print(f"[!] {msg}:{building_id}")
+            msg(f"[!] {msg}:{building_id}")
 
     def load_constructions(self) -> List[Construction]:
         building_list: List[Construction] = []
@@ -107,11 +108,11 @@ class Chrome:
 
                 if name and level:
                     c = Construction(name, lvl, finish_time_today)
-                    print("[-] Construction", c)
+                    msg("[-] Construction", c)
                     building_list.append(c)
 
         except Exception:
-            print("[!] Failed to find element with class buildingList")
+            msg("[!] Failed to find element with class buildingList")
             traceback.print_exc()
         return building_list
 
@@ -137,7 +138,7 @@ class Chrome:
                     villages.append(village_obj)
 
         except Exception:
-            print("[!] Failed to get village ids")
+            msg("[!] Failed to get village ids")
         return villages
 
     def get_building_slots(self) -> Optional[List[BuildingSlot]]:
@@ -163,7 +164,7 @@ class Chrome:
                     building_slots.append(s)
             return building_slots
         except Exception:
-            print("[!] Failed to get building slot")
+            msg("[!] Failed to get building slot")
 
     def get_resource_fields(self):
         """Find all resource fields in the DOM and returns and Object of arrays,
@@ -204,7 +205,7 @@ class Chrome:
                         try:
                             level = int(cls[5:])  # Get number after 'level'
                         except ValueError:
-                            print("Not right value: ", cls[5:])
+                            msg("Not right value: ", cls[5:])
                             pass
                         break
 
@@ -213,7 +214,7 @@ class Chrome:
                         try:
                             slot = int(cls[12:])
                         except ValueError:
-                            print("Not right type: ", cls[12:])
+                            msg("Not right type: ", cls[12:])
                             pass
                         break
 
@@ -226,7 +227,7 @@ class Chrome:
                 )
 
         except Exception:
-            print("[!] Failed to get resource fields ")
+            msg("[!] Failed to get resource fields ")
 
         return resource_fields
 
@@ -252,7 +253,7 @@ class Chrome:
                 )
                 resources[name] = int(clean_text)
             except Exception as e:
-                print(f"[!] Failed to get {name}: {e}")
+                msg(f"[!] Failed to get {name}: {e}")
                 resources[name] = None
 
         try:
@@ -277,11 +278,11 @@ class Chrome:
                 resources["warehouse_capacity"] = int(warehouse)
                 resources["granary_capacity"] = int(granary)
             else:
-                print("[!] Could not find both capacity values.")
+                msg("[!] Could not find both capacity values.")
                 resources["warehouse_capacity"] = None
                 resources["granary_capacity"] = None
         except Exception:
-            print("[!] Failed to get capacities")
+            msg("[!] Failed to get capacities")
             resources["warehouse_capacity"] = None
             resources["granary_capacity"] = None
 

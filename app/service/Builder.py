@@ -7,6 +7,7 @@ from app.data.Building import BuildingSlot
 from app.data.Construction import Construction
 from app.data.ResourceField import ResourceField
 from app.data.Task import BuildingTask, ResourceTask
+from server import msg
 
 
 class Builder:
@@ -41,7 +42,7 @@ class Builder:
             if lowest is None or res.get_level() < lowest.get_level():
                 lowest = res
         if lowest:
-            print("[-] Building lowest resource found: ", lowest)
+            msg("[-] Building lowest resource found: {lowest}")
             sleep(1)
             self.browser.goto(lowest.get_href())
             sleep(randrange(2, 3))
@@ -143,7 +144,7 @@ class Builder:
         ):
             self.res_tasks.append(task)
         else:
-            print("Task exists: ", self.res_tasks)
+            msg("Task exists: {self.res_tasks}")
 
     def add_build_task(self, task: BuildingTask):
         """
@@ -178,7 +179,7 @@ class Builder:
                 lowest = res
 
         if lowest:
-            print("[-] Building lowest resource found: ", lowest)
+            msg("[-] Building lowest resource found: {lowest}")
             sleep(1)
             self.browser.goto(lowest.get_href())
             sleep(randrange(2, 3))
@@ -186,7 +187,7 @@ class Builder:
             self.browser.goto(self.base_url + command)
             sleep(randrange(1, 2))
         else:
-            print(
+            msg(
                 f"[!] No {resource_type} fields below level {target_level} found."
             )
 
@@ -200,9 +201,9 @@ class Builder:
         """
         sleep(1)
         slot = self.get_slot_by_id(slot_id)
-        print("[+] Build on slot: ", slot)
+        msg(f"[+] Build on slot: {slot}")
         if slot is None:
-            print("[!] No slot found")
+            msg("[!] No slot found")
             return
         target_url = slot.get_href()
         self.browser.goto(target_url)
@@ -230,9 +231,9 @@ class Builder:
                     match = re.search(r"'(.*?)'", onclick_value)
                     if match and match.group(1) != "disabled":
                         command = match.group(1)
-                        print(f"[✓] {text} | Parsed URL: {command}")
+                        msg(f"[✓] {text} | Parsed URL: {command}")
                     else:
-                        print(f"[!] {text} | No URL found in onclick.")
+                        msg(f"[!] {text} | No URL found in onclick.")
         return command
 
     def to_dict(self):

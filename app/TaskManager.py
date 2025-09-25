@@ -1,6 +1,7 @@
 import time
 from threading import Thread
 from app.service.BotService import bot_service
+from server import msg
 
 
 def loop_check_queue():
@@ -8,11 +9,11 @@ def loop_check_queue():
         try:
             bot_service.get_build_queue()
         except Exception as e:
-            print(f"[!] Error in build queue loop: {e}")
+            msg(f"[!] Error in build queue loop: {e}")
         time.sleep(10)
 
 
 def start_background_tasks():
     t = Thread(target=loop_check_queue, daemon=True)
     t.start()
-    print("[✓] Background build queue thread started.")
+    msg("[✓] Background build queue thread started.")

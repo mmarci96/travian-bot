@@ -1,6 +1,7 @@
 from app.service.Builder import Builder
 from app.data.Storage import Storage
 from app.data.Task import BuildingTask, ResourceTask
+from server import msg
 
 
 class Village:
@@ -39,10 +40,10 @@ class Village:
     def build_res_idle(self):
         constructions = self.builder.get_build_tasks()
         if len(constructions) == 0:
-            print("[-] No running construction, build lowest resource.")
+            msg("[-] No running construction, build lowest resource.")
             self.do_res_task()
         else:
-            print("[?] Constructions running: ", constructions)
+            msg(f"[?] Constructions running: {constructions}")
 
     def do_res_task(self):
         """
@@ -52,13 +53,13 @@ class Village:
         res_tasks = self.builder.get_res_tasks()
         if len(res_tasks) > 0:
             task = res_tasks[0]
-            print("[-] Doing resource task: ", task)
+            msg(f"[-] Doing resource task: {task}")
             self.builder.build_lowest_resource(
                 task.resouce_type, task.target_level
             )
             self.builder.remove_res_task(task)
             return
-        print("[✓] All resource upgrade tasks are finished!")
+        msg("[✓] All resource upgrade tasks are finished!")
 
     def do_building_task(self):
         """
@@ -68,10 +69,10 @@ class Village:
         building_tasks = self.builder.get_build_tasks()
         if len(building_tasks) > 0:
             task = building_tasks[0]
-            print("[-] Doing build task: ", task)
+            msg(f"[-] Doing build task: {task}")
             self.builder.build_on_slot(task.slot_id, task.building_id)
             return
-        print("[✓] All building tasks are finished!")
+        msg("[✓] All building tasks are finished!")
 
     def add_build_task(self, build_task: BuildingTask):
         """

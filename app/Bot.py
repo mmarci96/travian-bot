@@ -16,6 +16,7 @@ from app.data.Task import ResourceTask
 from app.data.Village import Village
 from app.data.Warehouse import Warehouse
 from app.service.JsonParser import JsonParser
+from server import msg
 
 
 def get_time():
@@ -45,10 +46,10 @@ class Bot:
         build_queue = []
         for village in self.villages:
             builder = village.builder
-            print(f"village:{village.get_name()} - {village.get_id()}")
-            print(builder.get_build_tasks())
-            print(builder.get_res_tasks())
-            print(builder.get_resources())
+            msg(f"village:{village.get_name()} - {village.get_id()}")
+            msg(builder.get_build_tasks())
+            msg(builder.get_res_tasks())
+            msg(builder.get_resources())
 
         return build_queue
 
@@ -59,7 +60,7 @@ class Bot:
         sleep(randrange(1, 2))
         self.browser.click("textButtonV2.green")
         sleep(randrange(1, 2))
-        print("Logged into the account " + self.username)
+        msg("Logged into the account " + self.username)
         self.status = "idle"
 
     def get_status(self):
@@ -75,21 +76,21 @@ class Bot:
         self.browser.goto(self.url + village_href)
 
     def setup(self):
-        print("[+] Setup villages...")
+        msg("[+] Setup villages...")
         villages = self.browser.get_villages()
         for village in villages:
             village_id, village_name = next(iter(village.items()))
             self.load_village(village_id, village_name)
-        print("[✓] Villages loaded")
+        msg("[✓] Villages loaded")
 
     def update(self):
-        print("[✓] Started updating villages.")
+        msg("[✓] Started updating villages.")
         for village in self.villages:
             id = village.get_id()
             sleep(randrange(1, 2))
             village_href = f"/dorf1.php?newdid={id}&"
             self.go_to_village(village_href)
-            print("[✓] Navigate to current updating village:", village)
+            msg("[✓] Navigate to current updating village:", village)
             sleep(randrange(1, 2))
             res_fields = self.load_resources()
             store = self.load_storage()
@@ -113,7 +114,7 @@ class Bot:
         if target_village is None:
             return "village not found"
 
-        print("[✓] Adding task to village: ", target_village)
+        msg("[✓] Adding task to village: ", target_village)
         village.builder.add_res_task(upgrade_task)
         self.go_to_village(target_village.get_href())
         sleep(randrange(1, 2))
@@ -123,11 +124,11 @@ class Bot:
     def test_build(self):
         upgrade_task = ResourceTask("crop", 7)
         if len(self.villages) == 0:
-            print("[!] No village found.")
+            msg("[!] No village found.")
             return
 
         for village in self.villages:
-            print("[✓] Testing village: ", village)
+            msg("[✓] Testing village: ", village)
             village.builder.add_res_task(upgrade_task)
             self.go_to_village(village.get_href())
             sleep(randrange(1, 2))
@@ -170,7 +171,7 @@ class Bot:
         sleep(randrange(1, 2))
         slots = self.browser.get_building_slots()
         if slots:
-            print("[✓] Loaded Slots from browser.")
+            msg("[✓] Loaded Slots from browser.")
             return slots
         return []
 
@@ -185,7 +186,7 @@ class Bot:
         warehouse = Warehouse(res["warehouse_capacity"], warehouse_resources)
         granary = Granary(res["granary_capacity"], crop=res["crop"])
         storage = Storage(warehouse, granary)
-        print("[✓] Loaded Storage from browser.")
+        msg("[✓] Loaded Storage from browser.")
         return storage
 
     def load_resources(self) -> List[ResourceField.ResourceField]:
@@ -205,7 +206,7 @@ class Bot:
                 )
                 resource_fields.append(resource)
 
-        print("[✓] Loaded total resource fields.")
+        msg("[✓] Loaded total resource fields.")
         return resource_fields
 
     def go_farmlist(self):
@@ -224,16 +225,16 @@ class Bot:
         for i in range(len(list)):
             index = int(list[i])
             buttons[index].click()
-            print("List #" + str(index) + " were sent")
+            msg("List #" + str(index) + " were sent")
             sleep(randrange(3, 5))
 
-        print(get_time() + ": Lists were sent")
+        msg(get_time() + ": Lists were sent")
 
     def get_villages(self):
         data = {}
         for village in self.villages:
             data[village.get_id()] = village.get_name()
-        print("[+] Villages: ", data)
+        msg(f"[+] Villages: {data}")
         return {"villages": data}
 
     def get_constructions_by_village_id(self, village_id: str):
