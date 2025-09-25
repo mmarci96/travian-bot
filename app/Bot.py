@@ -16,7 +16,7 @@ from app.data.Task import ResourceTask
 from app.data.Village import Village
 from app.data.Warehouse import Warehouse
 from app.service.JsonParser import JsonParser
-from app.Logger import msg
+from app.Logger import LogType, msg
 
 
 def get_time():
@@ -53,6 +53,18 @@ class Bot:
 
         return build_queue
 
+    def construct_building_by_name(self, village_id: str, building_name: str):
+        msg(f"[+] build:{building_name}, village_id: {village_id}")
+        village = None
+        for v in self.villages:
+            if v.get_id() == village_id:
+                village = v
+                break
+        if village is None:
+            msg(f"[-] no village found village_id: {village_id}", LogType.WARN)
+
+        msg(f"[-] default_layout: {self.default_layout.slots}")
+
     def refresh_builds(self):
         msg("[-] refreshing builds")
         running_constructions = {}
@@ -79,6 +91,7 @@ class Bot:
         msg(f"[+]{running_constructions}")
 
     def login(self):
+        msg(f"Logging into game at url: {self.url}")
         self.browser.goto(self.url)
         sleep(randrange(1, 2))
         self.browser.post({"name": self.username, "password": self.password})
