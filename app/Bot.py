@@ -1,5 +1,5 @@
 from random import randrange
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from app import Chrome
 from time import sleep
@@ -43,14 +43,16 @@ class Bot:
         self.status = "init"
 
     def get_build_queue(self):
-        build_queue = []
+        build_queue = {}
         for village in self.villages:
             builder = village.builder
-            msg(f"village:{village.get_name()} - {village.get_id()}")
-            msg(f"build tasks:{builder.get_build_tasks()}")
-            msg(f"res tasks: {builder.get_res_tasks()}")
-            # msg(builder.get_resources())
+            # msg(f"village:{village.get_name()} - {village.get_id()}")
+            # msg(f"build tasks:{builder.get_build_tasks()}")
+            # msg(f"res tasks: {builder.get_res_tasks()}")
+            constructions = builder.contructions
+            build_queue[village.get_id()] = {"constructions": constructions}
 
+        msg(f"[+] build_queue: {build_queue}")
         return build_queue
 
     def construct_building_by_name(self, village_id: str, building_name: str):
@@ -65,7 +67,7 @@ class Bot:
 
         msg(f"[-] default_layout: {self.default_layout.slots}")
 
-    def refresh_builds(self):
+    def refresh_builds(self) -> Dict:
         msg("[-] refreshing builds")
         running_constructions = {}
         for village in self.villages:
@@ -88,7 +90,9 @@ class Bot:
                 "res_tasks": res_tasks,
                 "build_tasks": build_tasks,
             }
+
         msg(f"[+]{running_constructions}")
+        return running_constructions
 
     def login(self):
         msg(f"Logging into game at url: {self.url}")
