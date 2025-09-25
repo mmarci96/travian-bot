@@ -25,7 +25,7 @@ start-server:
 
 # --- Commands ---
 login:
-	curl -X POST "$(SERVER)/login" \
+	curl -X POST "$(SERVER)/auth/login" \
 		-H "Content-Type: application/json" \
 		-d '{"url": "$(URL)", "username": "$(USERNAME)", "password": "$(PASSWORD)"}'
 
