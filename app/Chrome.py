@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import re
+import traceback
 from typing import Dict, List, Optional
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
@@ -78,6 +79,8 @@ class Chrome:
         try:
             list_cls = "buildingList"
             list_contianer = self.browser.find_element(By.CLASS_NAME, list_cls)
+            if not list_contianer:
+                return building_list
             li_elements = list_contianer.find_elements(By.TAG_NAME, "li")
 
             for li_elem in li_elements:
@@ -109,6 +112,7 @@ class Chrome:
 
         except Exception:
             print("[!] Failed to find element with class buildingList")
+            traceback.print_exc()
         return building_list
 
     def get_villages(self) -> List[Dict[str, str]]:

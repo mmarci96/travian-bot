@@ -31,7 +31,7 @@ class Bot:
         self.username = username
         self.password = password
         self.json_parser = JsonParser()
-        self.browser = Chrome.Chrome(headless=False)
+        self.browser = Chrome.Chrome(headless=True)
         self.villages: List[Village] = []
         self.default_layout = DefaultLayout(
             self.json_parser.get_default_layout(
@@ -39,6 +39,7 @@ class Bot:
             )
         )
         self.military_village: Optional[Village] = None
+        self.status = "init"
 
     def login(self):
         self.browser.goto(self.url)
@@ -48,6 +49,10 @@ class Bot:
         self.browser.click("textButtonV2.green")
         sleep(randrange(1, 2))
         print("Logged into the account " + self.username)
+        self.status = "idle"
+
+    def get_status(self):
+        return self.status
 
     def go_home(self):
         self.browser.goto(self.url + "/dorf1.php")
@@ -85,6 +90,24 @@ class Bot:
             )
             village.update_data(builder, store)
             village.build_res_idle()
+
+    def build_resource(self, village_id: str, res_type: str, level: int) -> str:
+        upgrade_task = ResourceTask(res_type, level)
+
+        target_village = None
+        for village in self.villages:
+            if village.get_id() == village_id:
+                target_village = village
+
+        if target_village is None:
+            return "village not found"
+
+        print("[✓] Adding task to village: ", target_village)
+        village.builder.add_res_task(upgrade_task)
+        self.go_to_village(target_village.get_href())
+        sleep(randrange(1, 2))
+        village.do_res_task()
+        return "build task added"
 
     def test_build(self):
         upgrade_task = ResourceTask("crop", 7)
@@ -194,6 +217,22 @@ class Bot:
             sleep(randrange(3, 5))
 
         print(get_time() + ": Lists were sent")
+
+    def get_villages(self):
+        data = {}
+        for village in self.villages:
+            data[village.get_id()] = village.get_name()
+        print("[+] Villages: ", data)
+        return {"villages": data}
+
+    def get_constructions_by_village_id(self, village_id: str):
+        village = None
+        for v in self.villages:
+            if v.get_id() == village_id:
+                village = v
+        if village is None:
+            return None
+        return village.get_constructions()
 
     def is_logged(self):
         return self.browser.current_url() != self.url

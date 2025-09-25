@@ -26,9 +26,15 @@ class Village:
     def get_id(self) -> str:
         return self.id
 
+    def get_name(self) -> str:
+        return self.name
+
     def update_data(self, builder: Builder, storage: Storage):
         self.builder = builder
         self.storage = storage
+
+    def get_constructions(self):
+        return self.builder.contructions
 
     def build_res_idle(self):
         constructions = self.builder.get_build_tasks()
