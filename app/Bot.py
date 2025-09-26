@@ -6,6 +6,7 @@ from time import sleep
 from datetime import datetime
 
 from app.data import ResourceField
+from app.data.Construction import Construction
 from app.data.DefaultLayout import DefaultLayout
 from app.service.Builder import Builder
 from app.data.Building import BuildingSlot
@@ -279,7 +280,7 @@ class Bot:
         msg(f"[+] Villages: {data}")
         return {"villages": data}
 
-    def get_constructions(self) -> Dict:
+    def get_constructions(self) -> Dict[str, List[Construction]]:
         constructions_villages = {}
         for village in self.villages:
             constructions = village.get_constructions()

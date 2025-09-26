@@ -1,6 +1,7 @@
 from threading import Lock
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from app.Bot import Bot
+from app.data.Construction import Construction
 
 
 class BotService:
@@ -67,12 +68,14 @@ class BotService:
                 village_id, resource_type, target_level
             )
 
-    # def get_constructions(self) -> Dict:
-    #     with self.lock:
-    #         if not self.bot:
-    #             raise RuntimeError("Bot not initialized")
-    #         return self.bot.get_constructions_by_village_id()
-    #
+    def get_constructions_by_village_id(
+        self, id: str
+    ) -> Optional[List[Construction]]:
+        with self.lock:
+            if not self.bot:
+                raise RuntimeError("Bot not initialized")
+            return self.bot.get_constructions_by_village_id(id)
+
     def get_constructions(self):
         with self.lock:
             if self.bot:

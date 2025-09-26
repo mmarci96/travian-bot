@@ -18,9 +18,20 @@ def add_task_to_village(data: ResourceTaskRequest):
     return {"status": "success", "message": res}
 
 
+@router.get("/constructions")
+def get_constructions():
+    data = bot_service.get_constructions()
+    if data is None:
+        return {
+            "status": "error",
+            "message": "No constructions found",
+        }
+    return {"status": "success", "data": data}
+
+
 @router.get("/{village_id}/constructions")
-def get_constructions(village_id: str):
-    data = bot_service.get_constructions(village_id)
+def get_constructions_by_village_id(village_id: str):
+    data = bot_service.get_constructions_by_village_id(village_id)
     if data is None:
         return {
             "status": "error",
