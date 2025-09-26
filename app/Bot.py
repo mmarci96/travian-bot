@@ -92,7 +92,7 @@ class Bot:
                 "build_tasks": build_tasks,
             }
 
-        msg(f"[+] {running_constructions}")
+        msg(f"[+] running_constructions: {running_constructions}")
         return running_constructions
 
     def login(self):

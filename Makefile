@@ -33,6 +33,11 @@ update:
 	curl -X POST "$(SERVER)/update" \
 		-H "Content-Type: application/json"
 
+get_constructions:
+	curl -X GET "$(SERVER)/villages/constructions" \
+		-H "Content-Type: application/json"
+
+
 get_villages:
 	curl -X GET "$(SERVER)/villages" \
 		-H "Content-Type: application/json"

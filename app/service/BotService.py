@@ -23,7 +23,7 @@ class BotService:
                 self.bot = None
                 return {"status": "error", "message": "Login failed"}
 
-    def refresh_builds(self, constructions: Dict):
+    def refresh_builds(self, constructions):
         with self.lock:
             if self.bot:
                 return self.bot.refresh_builds(constructions)
