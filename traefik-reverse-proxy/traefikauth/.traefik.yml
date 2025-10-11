@@ -1,0 +1,6 @@
+type: middleware
+import: github.com/mmarci96/traefikauth
+displayName: "Traefik Auth Plugin"
+summary: "Authenticate requests using bearer token or forward to login service"
+testData: {}
+

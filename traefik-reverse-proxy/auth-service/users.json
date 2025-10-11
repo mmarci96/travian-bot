@@ -1,0 +1,7 @@
+{
+  "users": [
+    {"username": "admin", "password": "secret123"},
+    {"username": "guest", "password": "letmein"}
+  ]
+}
+

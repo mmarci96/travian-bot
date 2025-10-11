@@ -1,0 +1,16 @@
+# traefik.yml
+api:
+  insecure: true
+entryPoints:
+  web:
+    address: ":80"
+providers:
+  docker: {}
+  file:
+    filename: /etc/traefik/dynamic.yml
+    watch: true
+experimental:
+  localPlugins:
+    traefikauth:
+      moduleName: github.com/mmarci96/traefikauth
+

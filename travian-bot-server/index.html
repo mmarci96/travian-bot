@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Katrina</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9fb;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #0078d7;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hello Katrina</h1>
+</body>
+<script>
+    fetch("/test").then((res) => res.json()).then((data) =>
+        console.log(data))
+</script>
+
+</html>
