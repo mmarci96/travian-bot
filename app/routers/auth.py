@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from app.models.requests import LoginRequest
 from app.service.BotService import bot_service
 
-router = APIRouter(prefix="/auth", tags=["Auth"])
+router = APIRouter(prefix="/api/auth", tags=["Auth"])
 
 
 @router.post("/login")

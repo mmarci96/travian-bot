@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from app.models.requests import ResourceTaskRequest
 from app.service.BotService import bot_service
 
-router = APIRouter(prefix="/villages", tags=["Villages"])
+router = APIRouter(prefix="/api/villages", tags=["Villages"])
 
 
 @router.get("/")

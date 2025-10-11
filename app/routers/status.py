@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from app.service.BotService import bot_service
 
-router = APIRouter(prefix="/status", tags=["Status"])
+router = APIRouter(prefix="/api/status", tags=["Status"])
 
 
 @router.get("/")
