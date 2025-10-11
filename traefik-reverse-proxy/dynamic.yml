@@ -1,0 +1,23 @@
+http:
+  middlewares:
+    auth-middleware:
+      plugin:
+        traefikauth:
+          authServiceURL: "http://auth-service:8000"
+          bearerSecret: "supersecrettoken"
+
+  routers:
+    travianbot:
+      rule: "Host(`www.959353d1958446d49b91832e0d8e21fa.online`) && PathPrefix(`/api`)"
+      entryPoints:
+        - web
+      service: travian-service
+      middlewares:
+        - auth-middleware
+
+  services:
+    travian-service:
+      loadBalancer:
+        servers:
+          - url: "http://travian-bot:8000"
+
