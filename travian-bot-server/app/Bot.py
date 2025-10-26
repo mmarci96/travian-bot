@@ -70,7 +70,7 @@ class Bot:
 
     def refresh_builds(self, constructions: Dict) -> Dict:
         msg(f"[-] refreshing builds ... constructions: {constructions}")
-        running_constructions = {}
+        build_tasks = {}
         for village in self.villages:
             builder = village.builder
             builds = builder.get_build_tasks()
@@ -87,13 +87,13 @@ class Bot:
                     build_tasks[b.building_id] = 1
             msg(f"[+] res tasks: {res_tasks}")
             msg(f"[+] build tasks: {build_tasks}")
-            running_constructions[village.get_id()] = {
+            build_tasks[village.get_id()] = {
                 "res_tasks": res_tasks,
                 "build_tasks": build_tasks,
             }
 
-        msg(f"[+] running_constructions: {running_constructions}")
-        return running_constructions
+        msg(f"[+] tasks: {build_tasks}")
+        return build_tasks
 
     def login(self):
         msg(f"[+] logging into game at url: {self.url}")
@@ -163,6 +163,16 @@ class Bot:
         sleep(randrange(1, 2))
         village.do_res_task()
         return "build task added"
+
+    def get_tasks_by_village_id(self, village_id: str):
+        target_village = None
+        for village in self.villages:
+            if village.get_id() == village_id:
+                target_village = village
+
+        if target_village is None:
+            return "village not found"
+        return target_village.builder.get_res_tasks()
 
     def test_build(self):
         upgrade_task = ResourceTask("crop", 7)

@@ -57,7 +57,17 @@ class Village:
             self.builder.build_lowest_resource(
                 task.resouce_type, task.target_level
             )
-            self.builder.remove_res_task(task)
+            resouces = self.builder.get_resources()
+            is_done = False
+            for resource in resouces:
+                if (
+                    resource.get_resource_type() == task.resouce_type
+                    and resource.get_level() >= task.target_level
+                ):
+                    is_done = True
+
+            if is_done:
+                self.builder.remove_res_task(task)
             return
         msg("[✓] All resource upgrade tasks are finished!")
 

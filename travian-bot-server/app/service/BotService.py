@@ -68,6 +68,12 @@ class BotService:
                 village_id, resource_type, target_level
             )
 
+    def get_tasks(self, village_id: str):
+        with self.lock:
+            if not self.bot:
+                raise RuntimeError("Bot not initialized")
+            return self.bot.get_tasks_by_village_id(village_id)
+
     def get_constructions_by_village_id(
         self, id: str
     ) -> Optional[List[Construction]]:

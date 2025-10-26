@@ -11,9 +11,8 @@ def villages():
 
 
 @router.get("{village_id}/tasks")
-def get_tasks_by_village():
-    # res = bot_service.ge
-    data = {}
+def get_tasks_by_village(village_id: str):
+    data = bot_service.get_tasks(village_id)
     return {"status": "success", "data": data}
 
 
