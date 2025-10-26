@@ -5,7 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
-data
+app_data
 
 # Distribution / packaging
 .Python
