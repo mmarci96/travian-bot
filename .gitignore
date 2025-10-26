@@ -5,7 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
-app_data
+travian-bot-server/app_data/*
+!travian-bot-server/app_data/default_village_layout.json
 
 # Distribution / packaging
 .Python
