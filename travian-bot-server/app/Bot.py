@@ -37,7 +37,7 @@ class Bot:
         self.villages: List[Village] = []
         self.default_layout = DefaultLayout(
             self.json_parser.get_default_layout(
-                "./data/default_village_layout.json"
+                "./app_data/default_village_layout.json"
             )
         )
         self.military_village: Optional[Village] = None

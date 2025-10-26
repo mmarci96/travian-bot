@@ -1,5 +1,5 @@
 from threading import Lock
-from typing import Dict, List, Optional
+from typing import List, Optional
 from app.Bot import Bot
 from app.data.Construction import Construction
 

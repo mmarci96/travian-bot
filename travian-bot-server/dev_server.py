@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from app.Logger import msg
-from app.TaskManager import start_background_tasks
+from app.TaskManager import start_background_tasks, start_bot
 from app.routers import auth, status, villages, farm
-from app.service.BotService import bot_service
 from dotenv import load_dotenv
 import os
 
@@ -11,13 +10,15 @@ import os
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     load_dotenv()
-    url = os.getenv("BOT_URL", "url")
-    username = os.getenv("BOT_USERNAME", "username")
-    password = os.getenv("BOT_PASSWORD", "password")
-    bot_service.init_bot(url, username, password)
-    start_background_tasks()
+    url = os.getenv("URL", "url")
+    username = os.getenv("USERNAME", "username")
+    password = os.getenv("PASSWORD", "password")
+
+    start_bot(url, username, password)  # runs Selenium bot in background
+    start_background_tasks()  # runs loop_check_queue thread
+
     yield
-    msg(f"[✗] Shutting down app:{app.title} ...")
+    msg(f"[✗] Shutting down app: {app.title} ...")
 
 
 app = FastAPI(
