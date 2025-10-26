@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import re
+from time import sleep
 import traceback
 from typing import Dict, List, Optional
 import undetected_chromedriver as uc
@@ -115,10 +116,11 @@ class Chrome:
 
         except Exception:
             msg("[!] Failed to find element with class buildingList")
-            traceback.print_exc()
+            # traceback.print_exc()
         return building_list
 
     def get_villages(self) -> List[Dict[str, str]]:
+        sleep(2)
         villages = []
         try:
             id = "sidebarBoxVillageList"
@@ -128,7 +130,6 @@ class Chrome:
 
             for village_container in village_containers:
                 village = village_container.get_attribute("data-sortid")
-
                 if village:
                     village_id = village[7:]
                     name_elem = village_container.find_element(
@@ -138,7 +139,6 @@ class Chrome:
                     name = name_elem.text
                     village_obj = {village_id: name}
                     villages.append(village_obj)
-
         except Exception:
             msg("[!] Failed to get village ids")
         return villages

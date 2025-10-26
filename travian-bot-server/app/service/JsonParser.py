@@ -34,7 +34,7 @@ class JsonParser:
         return slots
 
     def save_village_to_json(self, village: Village):
-        filename = f"./data/village_{village.id}.json"
+        filename = f"./app_data/village_{village.id}.json"
         with open(filename, "w") as f:
             json.dump(village.to_dict(), f, indent=2)
         msg(f"[✓] Village data saved to {filename}")

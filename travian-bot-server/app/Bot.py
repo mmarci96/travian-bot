@@ -124,7 +124,7 @@ class Bot:
         for village in villages:
             village_id, village_name = next(iter(village.items()))
             self.load_village(village_id, village_name)
-        msg("[✓] Villages loaded")
+        msg(f"[✓] Villages loaded: {villages}")
 
     def update(self):
         msg("[✓] Started updating villages.")

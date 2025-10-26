@@ -14,7 +14,6 @@ async def lifespan(app: FastAPI):
     username = os.getenv("USERNAME", "username")
     password = os.getenv("PASSWORD", "password")
 
-    msg(f"Login as: {url}, {username}, {password}")
     start_bot(url, username, password)  # runs Selenium bot in background
     start_background_tasks()  # runs loop_check_queue thread
 

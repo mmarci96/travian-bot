@@ -10,6 +10,13 @@ def villages():
     return {"status": "success", "data": bot_service.get_villages()}
 
 
+@router.get("{village_id}/tasks")
+def get_tasks_by_village():
+    # res = bot_service.ge
+    data = {}
+    return {"status": "success", "data": data}
+
+
 @router.post("/tasks")
 def add_task_to_village(data: ResourceTaskRequest):
     res = bot_service.add_resource_task(
